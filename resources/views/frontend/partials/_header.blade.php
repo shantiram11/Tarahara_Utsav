@@ -3,7 +3,7 @@
       <div class="flex justify-between items-center h-20">
           <!-- Logo with Animation -->
           <div class="flex-shrink-0">
-              <a href="" class="flex items-center group">
+              <a href="{{ route('home') }}" class="flex items-center group">
                   <div class="relative overflow-hidden rounded-xl">
                       <img src="{{ asset('assets/Logo.png') }}" alt="Tarahara Utsav" class="h-14 w-auto transition-all duration-500 group-hover:scale-110 group-hover:rotate-2">
 
@@ -19,33 +19,33 @@
           <div class="hidden md:block">
               <div class="flex items-center space-x-2">
                   <!-- Home Link - Active -->
-                  <a href="" class="relative group px-4 py-3 text-red-600 font-semibold text-sm rounded-xl bg-red-50 transition-all duration-300 hover:bg-red-100 hover:-translate-y-0.5 overflow-hidden">
+                  <a href="{{ route('home') }}" class="relative group px-4 py-3 text-red-600 font-semibold text-sm rounded-xl bg-red-50 transition-all duration-300 hover:bg-red-100 hover:-translate-y-0.5 overflow-hidden">
                       <span class="relative z-10">Home</span>
                       <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-red-600 to-red-500 rounded-full"></div>
                   </a>
 
                   <!-- Regular Nav Links -->
-                  <a href="#" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
+                  <a href="#mosaic" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
                       <span class="relative z-10">Events</span>
                       <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
                   </a>
 
-                  <a href="#" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
+                  <a href="#categories" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
                       <span class="relative z-10">Category</span>
                       <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
                   </a>
 
-                  <a href="#" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
+                  <a href="#trusted" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
                       <span class="relative z-10">Highlights</span>
                       <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
                   </a>
 
-                  <a href="#" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
+                  <a href="#sponsors" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
                       <span class="relative z-10">Sponsor</span>
                       <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
                   </a>
 
-                  <a href="" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
+                  <a href="#footer" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
                       <span class="relative z-10">Contact</span>
                       <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
                   </a>
@@ -114,32 +114,32 @@
       <div class="relative bg-white/95 backdrop-blur-xl m-4 rounded-2xl shadow-2xl transform translate-y-8 transition-transform duration-500">
           <div class="p-6 space-y-1">
               <!-- Navigation Links -->
-              <a href="" class="group flex items-center justify-between py-4 px-4 text-red-600 bg-red-50 font-semibold rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
+              <a href="{{ route('home') }}" class="group flex items-center justify-between py-4 px-4 text-red-600 bg-red-50 font-semibold rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
                   <span>Home</span>
                   <div class="w-1 h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
               </a>
 
-              <a href="#" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="#mosaic" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Events</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="#categories" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Category</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="#trusted" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Highlights</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="#sponsors" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Sponsor</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="#footer" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Contact</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>

@@ -18,7 +18,8 @@
             >
               Tier 1
             </p>
-            <div class="grid grid-cols-2 items-stretch gap-6 sm:grid-cols-4">
+            <div class="grid grid-cols-2 items-stretch gap-3
+             sm:grid-cols-4">
               <a
                 href="#"
                 class="group flex items-center justify-center rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:ring-amber-300 hover:shadow-soft"
@@ -70,7 +71,7 @@
             >
               Tier 2
             </p>
-            <div class="grid grid-cols-3 items-stretch gap-6 sm:grid-cols-6">
+            <div class="grid grid-cols-2 items-stretch gap-2 sm:grid-cols-6">
               <a
                 href="#"
                 class="group flex items-center justify-center rounded-2xl bg-white p-4 ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:ring-amber-300 hover:shadow-soft"
