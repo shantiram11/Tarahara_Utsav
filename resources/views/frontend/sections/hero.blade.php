@@ -1,11 +1,14 @@
-<section class="bg-yellow-50 pt-32 pb-8 sm:pt-36 sm:pb-12 lg:pt-40 lg:pb-20">
+<section class="bg-yellow-50 hero-section pb-8 sm:pb-12 lg:pb-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
             <!-- Left Content -->
             <div class="space-y-6 lg:space-y-8 order-1 lg:order-1">
                 <!-- Hero Logo -->
+
                 <div class="mb-4 lg:mb-6">
-                    <img src="{{ asset('assets/home.png') }}" alt="Tarahara Utsav Hero" class="h-16 sm:h-20 lg:h-24 w-auto">
+
+                    <img src="{{ asset('assets/home1.png') }}" alt="Tarahara Utsav Hero" class="h-12 sm:h-16 lg:h-40 w-68">
+
                 </div>
                 <!-- Description -->
                 <p class="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg">
@@ -125,6 +128,17 @@
         max-width: 350px;
         max-height: 400px;
     }
+}
+
+/* Fine-tuned top spacing for hero beyond Tailwind steps */
+.hero-section {
+    padding-top: 5.5rem; /* 88px - between 4rem (64) and 6rem (96) */
+}
+@media (min-width: 640px) { /* sm */
+    .hero-section { padding-top: 5.75rem; }
+}
+@media (min-width: 1024px) { /* lg */
+    .hero-section { padding-top: 5.5rem; }
 }
 
 /* Dynamic background images */
