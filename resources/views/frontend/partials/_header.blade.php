@@ -1,12 +1,11 @@
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-white/20 shadow-lg">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-white/20 shadow-sm">
   <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
       <div class="flex justify-between items-center h-20">
           <!-- Logo with Animation -->
           <div class="flex-shrink-0">
-              <a href="{{ route('home') }}" class="flex items-center group">
-                  <div class="relative overflow-hidden rounded-xl">
-                      <img src="{{ asset('assets/Logo.png') }}" alt="Tarahara Utsav" class="h-14 w-auto transition-all duration-500 group-hover:scale-110 group-hover:rotate-2">
-
+              <a href="{{ route('home') }}" class="flex items-center">
+                  <div class="relative">
+                      <img src="{{ asset('assets/Logo.png') }}" alt="Tarahara Utsav" class="h-10 sm:h-12 w-auto">
                   </div>
                   <span
             class="ml-1 rounded-full bg-amber-300/20 px-2 py-0.5 text-[10px] font-semibold text-amber-300 ring-1 ring-amber-300/40"
@@ -17,37 +16,37 @@
 
           <!-- Desktop Navigation Links -->
           <div class="hidden md:block">
-              <div class="flex items-center space-x-2">
-                  <!-- Home Link - Active -->
-                  <a href="{{ route('home') }}" class="relative group px-4 py-3 text-red-600 font-semibold text-sm rounded-xl bg-red-50 transition-all duration-300 hover:bg-red-100 hover:-translate-y-0.5 overflow-hidden">
-                      <span class="relative z-10">Home</span>
-                      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-red-600 to-red-500 rounded-full"></div>
+              <div class="desktop-nav flex items-center space-x-1">
+                  <!-- Home Link -->
+                  <a href="{{ route('home') }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Home</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
                   <!-- Regular Nav Links -->
-                  <a href="#mosaic" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
-                      <span class="relative z-10">Events</span>
-                      <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
+                  <a href="#mosaic" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Events</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#categories" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
-                      <span class="relative z-10">Category</span>
-                      <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
+                  <a href="#categories" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Category</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#trusted" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
-                      <span class="relative z-10">Highlights</span>
-                      <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
+                  <a href="#trusted" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Highlights</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#sponsors" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
-                      <span class="relative z-10">Sponsor</span>
-                      <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
+                  <a href="#sponsors" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Sponsor</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#footer" class="relative group px-4 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl transition-all duration-300 hover:bg-gray-50 hover:-translate-y-0.5 overflow-hidden">
-                      <span class="relative z-10">Contact</span>
-                      <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
+                  <a href="#footer" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Contact</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
                   @auth
@@ -219,5 +218,56 @@ document.addEventListener('click', function(e) {
   if (!menu.classList.contains('opacity-0') && !menu.contains(e.target) && !button.contains(e.target)) {
       toggleMobileMenu();
   }
+});
+</script>
+<script>
+// Desktop nav active underline based on URL hash
+document.addEventListener('DOMContentLoaded', function () {
+  const links = Array.from(document.querySelectorAll('.desktop-nav .nav-link'));
+  const applyActive = (matchHref) => {
+    links.forEach(a => {
+      const indicator = a.querySelector('.active-indicator');
+      const target = a.getAttribute('href');
+      if (!indicator) return;
+      const isActive = target === matchHref || (!matchHref && target === '{{ route('home') }}');
+      indicator.style.display = isActive ? 'block' : 'none';
+      a.classList.toggle('text-red-600', isActive);
+      a.classList.toggle('bg-red-50', isActive);
+      a.classList.toggle('font-semibold', isActive);
+    });
+  };
+
+  const setActive = () => {
+    const hash = window.location.hash;
+    applyActive(hash);
+  };
+  setActive();
+  window.addEventListener('hashchange', setActive);
+
+  // Immediate feedback on click, plus smooth scroll for hash links
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        applyActive(href);
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          const offset = 80; // fixed header height
+          const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+        if (window.location.hash !== href) {
+          history.pushState(null, '', href);
+        }
+      } else {
+        // Clicking Home: clear hash so Home shows active even without reload
+        if (window.location.hash) {
+          history.replaceState(null, '', window.location.pathname);
+          applyActive('');
+        }
+      }
+    });
+  });
 });
 </script>
