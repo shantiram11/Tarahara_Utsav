@@ -1,4 +1,4 @@
-<section>
+<section id="sponsors" class="bg-gradient-to-b from-white to-slate-50 py-16 sm:py-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="mx-auto max-w-2xl text-center">
             <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">

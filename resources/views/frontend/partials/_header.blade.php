@@ -18,35 +18,35 @@
           <div class="hidden md:block">
               <div class="desktop-nav flex items-center space-x-1">
                   <!-- Home Link -->
-                  <a href="{{ route('home') }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ route('home') }}" class="nav-link relative px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('home') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-700 hover:text-gray-900' }}">
                       <span>Home</span>
-                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="{{ request()->routeIs('home') ? 'display:block' : 'display:none' }}"></span>
                   </a>
 
                   <!-- Regular Nav Links -->
-                  <a href="#mosaic" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
                       <span>Events</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#categories" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
                       <span>Category</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#trusted" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#trusted' : route('home').'#trusted' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
                       <span>Highlights</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#sponsors" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
                       <span>Sponsor</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="#footer" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ route('contact') }}" class="nav-link relative px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('contact') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-700 hover:text-gray-900' }}">
                       <span>Contact</span>
-                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="{{ request()->routeIs('contact') ? 'display:block' : 'display:none' }}"></span>
                   </a>
 
                   @auth
@@ -118,27 +118,27 @@
                   <div class="w-1 h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
               </a>
 
-              <a href="#mosaic" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Events</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#categories" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Category</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#trusted" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ request()->routeIs('home') ? '#trusted' : route('home').'#trusted' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Highlights</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#sponsors" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Sponsor</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="#footer" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ route('contact') }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Contact</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
@@ -178,93 +178,30 @@
       </div>
   </div>
 </nav>
-
 <script>
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const button = document.getElementById('mobile-menu-button');
-  const line1 = document.getElementById('line1');
-  const line2 = document.getElementById('line2');
-  const line3 = document.getElementById('line3');
-
-  if (menu.classList.contains('opacity-0')) {
-      // Open menu
-      menu.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
-      menu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-
-      // Animate hamburger to X
-      line1.style.transform = 'rotate(45deg) translate(5px, 5px)';
-      line2.style.opacity = '0';
-      line2.style.transform = 'scale(0)';
-      line3.style.transform = 'rotate(-45deg) translate(5px, -5px)';
-  } else {
-      // Close menu
-      menu.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
-      menu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-
-      // Animate X back to hamburger
-      line1.style.transform = 'rotate(0) translate(0, 0)';
-      line2.style.opacity = '1';
-      line2.style.transform = 'scale(1)';
-      line3.style.transform = 'rotate(0) translate(0, 0)';
-  }
-}
-
-// Close menu when clicking backdrop
-document.addEventListener('click', function(e) {
-  const menu = document.getElementById('mobile-menu');
-  const button = document.getElementById('mobile-menu-button');
-
-  if (!menu.classList.contains('opacity-0') && !menu.contains(e.target) && !button.contains(e.target)) {
-      toggleMobileMenu();
-  }
-});
-</script>
-<script>
-// Desktop nav active underline based on URL hash
+// Close mobile menu when a link is clicked; smooth scroll for in-page links
 document.addEventListener('DOMContentLoaded', function () {
-  const links = Array.from(document.querySelectorAll('.desktop-nav .nav-link'));
-  const applyActive = (matchHref) => {
-    links.forEach(a => {
-      const indicator = a.querySelector('.active-indicator');
-      const target = a.getAttribute('href');
-      if (!indicator) return;
-      const isActive = target === matchHref || (!matchHref && target === '{{ route('home') }}');
-      indicator.style.display = isActive ? 'block' : 'none';
-      a.classList.toggle('text-red-600', isActive);
-      a.classList.toggle('bg-red-50', isActive);
-      a.classList.toggle('font-semibold', isActive);
-    });
-  };
-
-  const setActive = () => {
-    const hash = window.location.hash;
-    applyActive(hash);
-  };
-  setActive();
-  window.addEventListener('hashchange', setActive);
-
-  // Immediate feedback on click, plus smooth scroll for hash links
-  links.forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href') || '';
-      if (href.startsWith('#')) {
+  const menu = document.getElementById('mobile-menu');
+  const mobileLinks = Array.from(menu.querySelectorAll('a'));
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+      const href = link.getAttribute('href') || '';
+      const isHash = href.startsWith('#');
+      if (isHash) {
         e.preventDefault();
-        applyActive(href);
+      }
+      if (!menu.classList.contains('opacity-0')) {
+        toggleMobileMenu();
+      }
+      if (isHash) {
         const targetEl = document.querySelector(href);
         if (targetEl) {
-          const offset = 80; // fixed header height
+          const offset = 80;
           const top = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
           window.scrollTo({ top, behavior: 'smooth' });
-        }
-        if (window.location.hash !== href) {
-          history.pushState(null, '', href);
-        }
-      } else {
-        // Clicking Home: clear hash so Home shows active even without reload
-        if (window.location.hash) {
-          history.replaceState(null, '', window.location.pathname);
-          applyActive('');
+          if (window.location.hash !== href) {
+            history.pushState(null, '', href);
+          }
         }
       }
     });

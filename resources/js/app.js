@@ -1,4 +1,53 @@
 import "./bootstrap";
+// =================
+// Header interactions
+// =================
+function toggleMobileMenu() {
+    const menu = document.getElementById("mobile-menu");
+    const button = document.getElementById("mobile-menu-button");
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const line3 = document.getElementById("line3");
+    if (!menu || !button) return;
+    const isClosed = menu.classList.contains("opacity-0");
+    if (isClosed) {
+        menu.classList.remove(
+            "opacity-0",
+            "-translate-y-full",
+            "pointer-events-none"
+        );
+        menu.classList.add(
+            "opacity-100",
+            "translate-y-0",
+            "pointer-events-auto"
+        );
+        if (line1 && line2 && line3) {
+            line1.style.transform = "rotate(45deg) translate(5px, 5px)";
+            line2.style.opacity = "0";
+            line2.style.transform = "scale(0)";
+            line3.style.transform = "rotate(-45deg) translate(5px, -5px)";
+        }
+    } else {
+        menu.classList.add(
+            "opacity-0",
+            "-translate-y-full",
+            "pointer-events-none"
+        );
+        menu.classList.remove(
+            "opacity-100",
+            "translate-y-0",
+            "pointer-events-auto"
+        );
+        if (line1 && line2 && line3) {
+            line1.style.transform = "rotate(0) translate(0, 0)";
+            line2.style.opacity = "1";
+            line2.style.transform = "scale(1)";
+            line3.style.transform = "rotate(0) translate(0, 0)";
+        }
+    }
+}
+
+window.toggleMobileMenu = toggleMobileMenu;
 // Mobile menu toggle
 const mobileMenuButton = document.getElementById("mobileMenuButton");
 const mobileMenu = document.getElementById("mobileMenu");
@@ -80,55 +129,75 @@ if (document.readyState === "loading") {
 }
 
 function setupHeaderInteractions() {
-    const hdr =
+    const headerEl =
         document.getElementById("site-header") ||
         document.querySelector("header");
-    if (hdr) {
-        hdr.classList.remove("-translate-y-6", "opacity-0");
-    }
+    if (headerEl) headerEl.classList.remove("-translate-y-6", "opacity-0");
 
-    // Mobile menu wiring (idempotent)
-    const mmBtn = document.getElementById("mobileMenuButton");
-    const mm = document.getElementById("mobileMenu");
+    // Mobile menu wiring (match Blade ids)
+    const mmBtn = document.getElementById("mobile-menu-button");
+    const mm = document.getElementById("mobile-menu");
     if (mmBtn && mm && !mmBtn.dataset.bound) {
-        mmBtn.addEventListener("click", () => mm.classList.toggle("hidden"));
+        mmBtn.addEventListener("click", toggleMobileMenu);
         mm.querySelectorAll("a").forEach((a) =>
-            a.addEventListener("click", () => mm.classList.add("hidden"))
+            a.addEventListener("click", () => {
+                if (!mm.classList.contains("opacity-0")) toggleMobileMenu();
+            })
         );
         mmBtn.dataset.bound = "true";
     }
 
-    // Active nav link highlight
-    const links = document.querySelectorAll(".nav-link");
-    const map = new Map();
-    links.forEach((l) => {
-        const href = l.getAttribute("href");
-        if (href && href.startsWith("#")) map.set(href.slice(1), l);
-    });
-    if (map.size) {
-        const activeClassLocal = ["text-amber-600", "font-semibold"];
-        const obs = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        links.forEach((lnk) =>
-                            lnk.classList.remove(...activeClassLocal)
-                        );
-                        const link = map.get(entry.target.id);
-                        if (link) link.classList.add(...activeClassLocal);
-                    }
-                });
-            },
-            {
-                rootMargin: "-40% 0px -50% 0px",
-                threshold: [0, 0.25, 0.5, 0.75, 1],
+    // Desktop active indicator + click smooth scroll with header offset
+    const links = Array.from(
+        document.querySelectorAll(".desktop-nav .nav-link")
+    );
+    const activeClasses = ["text-red-600", "bg-red-50", "font-semibold"];
+
+    const applyActive = (matchHref) => {
+        links.forEach((a) => {
+            const indicator = a.querySelector(".active-indicator");
+            const target = a.getAttribute("href");
+            const isActive =
+                target === matchHref ||
+                (!matchHref &&
+                    target ===
+                        "" +
+                            (typeof route === "function"
+                                ? route("home")
+                                : "")) ||
+                (!matchHref && target === document.location.pathname);
+            if (indicator)
+                indicator.style.display = isActive ? "block" : "none";
+            a.classList.toggle(activeClasses[0], isActive);
+            a.classList.toggle(activeClasses[1], isActive);
+            a.classList.toggle(activeClasses[2], isActive);
+        });
+    };
+
+    const setActiveFromHash = () => applyActive(window.location.hash || "");
+    setActiveFromHash();
+    window.addEventListener("hashchange", setActiveFromHash);
+
+    links.forEach((a) => {
+        a.addEventListener("click", (e) => {
+            const href = a.getAttribute("href") || "";
+            if (href.startsWith("#")) {
+                e.preventDefault();
+                applyActive(href);
+                const targetEl = document.querySelector(href);
+                if (targetEl) {
+                    const offset = 80;
+                    const top =
+                        targetEl.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        offset;
+                    window.scrollTo({ top, behavior: "smooth" });
+                }
+                if (window.location.hash !== href)
+                    history.pushState(null, "", href);
             }
-        );
-        Array.from(map.keys())
-            .map((id) => document.getElementById(id))
-            .filter(Boolean)
-            .forEach((sec) => obs.observe(sec));
-    }
+        });
+    });
 
     // Shadow on scroll for included header
     const updateShadow = () => {

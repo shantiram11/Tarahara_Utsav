@@ -15,10 +15,10 @@
         <div class="relative mt-6">
           <!-- edge fades -->
           <div
-            class="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-slate-50 to-transparent"
+            class="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-slate-50 to-transparent"
           ></div>
           <div
-            class="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-white to-transparent"
+            class="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white to-transparent"
           ></div>
           <div class="overflow-hidden">
             <ul
@@ -29,42 +29,42 @@
               <!-- repeat set twice for seamless loop -->
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="BBC"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="The Guardian"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="Al Jazeera"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="CNN"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="Reuters"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="NYTimes"
                 />
@@ -72,42 +72,42 @@
 
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="BBC"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="The Guardian"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="Al Jazeera"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="CNN"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="Reuters"
                 />
               </li>
               <li class="shrink-0">
                 <img
-                  class="h-16 md:h-16 opacity-90"
+                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
                   src="{{ asset('assets/Logo.png') }}"
                   alt="NYTimes"
                 />
@@ -116,3 +116,21 @@
           </div>
         </div>
       </section>
+
+      <style>
+        @keyframes media-scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .media-track {
+          width: max-content;
+          animation: media-scroll var(--marquee-duration, 28s) linear infinite;
+        }
+        .media-track:hover {
+          animation-play-state: paused;
+        }
+      </style>

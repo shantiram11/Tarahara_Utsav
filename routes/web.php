@@ -7,6 +7,11 @@ Route::get('/', function () {
     return view('frontend.index');
 })->name('home');
 
+// Contact page
+Route::get('/contact', function () {
+    return view('frontend.contact');
+})->name('contact');
+
 // Password reset via OTP
 Route::post('/password/otp/send', [PasswordOtpController::class, 'sendOtp'])->name('password.otp.send');
 Route::get('/password/otp', [PasswordOtpController::class, 'showForm'])->name('password.otp.form');

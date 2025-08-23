@@ -206,17 +206,7 @@
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    /* Ensure proper spacing for mobile devices */
-    section {
-        min-height: calc(100vh - 80px); /* Account for fixed navigation */
-    }
-
-    /* Additional safe area padding for devices with notches */
-    @supports (padding-top: env(safe-area-inset-top)) {
-        section {
-            padding-top: max(128px, calc(128px + env(safe-area-inset-top)));
-        }
-    }
+    /* Removed global section min-height and safe-area padding to prevent large gaps between sections on mobile */
 }
 </style>
 

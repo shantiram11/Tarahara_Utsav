@@ -4,9 +4,11 @@
   >
     <div>
       <span
-        class="mb-4 block text-xs font-medium text-amber-600 md:text-sm"
+        class="mb-4 block text-xs md:text-sm inline-flex items-center rounded-md bg-amber-600 px-4 py-2 font-medium text-white transition-all hover:bg-amber-500 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2
+"
         >About Event</span
       >
+
       <h3 class="text-4xl font-semibold text-slate-900 md:text-6xl">
         About Tarahara Utsav
       </h3>
@@ -19,11 +21,7 @@
         future generations with excellence, creativity, and community
         spirit.
       </p>
-      <a
-        href="about.html"
-        class="inline-flex items-center rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-amber-500 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2"
-        >About Event</a
-      >
+
     </div>
     <div>
       <div
