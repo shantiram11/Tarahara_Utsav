@@ -7,7 +7,7 @@
 
                 <div class="mb-4 lg:mb-6">
 
-                    <img src="{{ asset('assets/home1.png') }}" alt="Tarahara Utsav Hero" class="h-12 sm:h-16 lg:h-40 w-68">
+                    <img src="{{ asset('assets/2025_logo_hero.png') }}" alt="Tarahara Utsav Hero" class="h-12 sm:h-16 lg:h-40 w-68">
 
                 </div>
                 <!-- Description -->
@@ -53,9 +53,6 @@
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button class="bg-gray-400 hover:bg-gray-500 active:bg-gray-600 text-white font-semibold py-3 px-6 sm:px-8 rounded-lg transition-colors text-sm sm:text-base w-full sm:w-auto touch-manipulation">
                         Get ticket
-                    </button>
-                    <button class="border-2 border-gray-400 text-gray-700 hover:bg-gray-100 active:bg-gray-200 font-semibold py-3 px-6 sm:px-8 rounded-lg transition-colors text-sm sm:text-base w-full sm:w-auto touch-manipulation">
-                        View program
                     </button>
                 </div>
             </div>

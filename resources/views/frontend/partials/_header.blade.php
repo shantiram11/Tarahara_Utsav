@@ -29,18 +29,18 @@
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
+                  <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                      <span>Sponsors</span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
+                  </a>
+
                   <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
                       <span>Category</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="{{ request()->routeIs('home') ? '#trusted' : route('home').'#trusted' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
                       <span>Highlights</span>
-                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
-                  </a>
-
-                  <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
-                      <span>Sponsor</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
