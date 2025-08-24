@@ -71,7 +71,7 @@
                     </div>
 
                     <!-- Mobile Optimized Image Container -->
-                    <div class="relative w-full h-[280px] sm:h-[400px] lg:h-[600px] flex items-center justify-center overflow-hidden">
+                    <div class="relative w-full h-[380px] sm:h-[400px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                         <!-- Dynamic Background Image 1 - Mobile optimized positioning -->
                         <div class="absolute top-2 sm:top-8 left-1 sm:left-4 w-28 sm:w-40 lg:w-48 h-32 sm:h-50 lg:h-60 bg-image-1">
                             <img id="bg-image-1" src="{{ asset('assets/Live performance.png') }}" alt="Background Image" class="w-full h-full object-cover rounded-lg lg:rounded-xl shadow-md lg:shadow-lg opacity-25 sm:opacity-30 lg:opacity-40 transform rotate-3 sm:rotate-6 lg:rotate-12 bg-smooth-transition">
@@ -108,8 +108,8 @@
     position: relative;
     z-index: 10;
     animation: gentleFloat 6s ease-in-out infinite;
-    max-width: 220px;
-    max-height: 320px;
+    max-width: 260px;
+    max-height: 360px;
 }
 
 /* Responsive main image sizing */
