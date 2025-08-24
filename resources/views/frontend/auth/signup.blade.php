@@ -194,29 +194,6 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
                         @enderror
                     </div>
                 </div>
-
-                <!-- Terms and Newsletter -->
-                <div class="space-y-2">
-                    <div class="flex items-start">
-                        <input id="terms" name="terms" type="checkbox" required
-                               class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded mt-0.5 touch-manipulation">
-                        <label for="terms" class="ml-2 block text-xs text-gray-700 leading-relaxed">
-                            I agree to the
-                            <a href="#" class="text-red-600 hover:text-red-500 font-medium">Terms & Conditions</a>
-                            and
-                            <a href="#" class="text-red-600 hover:text-red-500 font-medium">Privacy Policy</a>
-                        </label>
-                    </div>
-
-                    <div class="flex items-start">
-                        <input id="newsletter" name="newsletter" type="checkbox"
-                               class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded mt-0.5 touch-manipulation">
-                        <label for="newsletter" class="ml-2 block text-xs text-gray-700 leading-relaxed">
-                            Send me festival updates and event notifications
-                        </label>
-                    </div>
-                </div>
-
                 <!-- Sign Up Button -->
                 <button type="submit"
                         class="w-full bg-gradient-to-r from-red-600 to-red-500 text-white font-semibold py-2.5 sm:py-3 px-6 rounded-xl sm:rounded-2xl shadow-lg shadow-red-500/25 hover:shadow-xl hover:shadow-red-500/35 transition-all duration-300 hover:-translate-y-0.5 hover:from-red-700 hover:to-red-600 transform text-sm touch-manipulation">

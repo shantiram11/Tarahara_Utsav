@@ -1,71 +1,11 @@
 // =================
 // Header interactions
 // =================
-function toggleMobileMenu() {
-    const menu = document.getElementById("mobile-menu");
-    const button = document.getElementById("mobile-menu-button");
-    const line1 = document.getElementById("line1");
-    const line2 = document.getElementById("line2");
-    const line3 = document.getElementById("line3");
-    if (!menu || !button) return;
-    const isClosed = menu.classList.contains("opacity-0");
-    if (isClosed) {
-        menu.classList.remove(
-            "opacity-0",
-            "-translate-y-full",
-            "pointer-events-none"
-        );
-        menu.classList.add(
-            "opacity-100",
-            "translate-y-0",
-            "pointer-events-auto"
-        );
-        if (line1 && line2 && line3) {
-            line1.style.transform = "rotate(45deg) translate(5px, 5px)";
-            line2.style.opacity = "0";
-            line2.style.transform = "scale(0)";
-            line3.style.transform = "rotate(-45deg) translate(5px, -5px)";
-        }
-    } else {
-        menu.classList.add(
-            "opacity-0",
-            "-translate-y-full",
-            "pointer-events-none"
-        );
-        menu.classList.remove(
-            "opacity-100",
-            "translate-y-0",
-            "pointer-events-auto"
-        );
-        if (line1 && line2 && line3) {
-            line1.style.transform = "rotate(0) translate(0, 0)";
-            line2.style.opacity = "1";
-            line2.style.transform = "scale(1)";
-            line3.style.transform = "rotate(0) translate(0, 0)";
-        }
-    }
-}
-
-window.toggleMobileMenu = toggleMobileMenu;
-// Mobile menu toggle
-const mobileMenuButton = document.getElementById("mobileMenuButton");
-const mobileMenu = document.getElementById("mobileMenu");
-
-if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-    });
-
-    // Hide menu when clicking a link
-    mobileMenu.querySelectorAll("a").forEach((anchor) => {
-        anchor.addEventListener("click", () =>
-            mobileMenu.classList.add("hidden")
-        );
-    });
-}
 
 // Smooth scrolling for all anchor links with hashes to sections on the same page
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    // Skip header nav links; those are handled with offset below
+    if (anchor.closest(".desktop-nav")) return;
     anchor.addEventListener("click", function onAnchorClick(e) {
         const targetId = this.getAttribute("href");
         if (targetId && targetId.length > 1) {
@@ -78,18 +18,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     });
 });
 
-// Sticky header shadow on scroll
-const header = document.querySelector("header");
-const addShadowOnScroll = () => {
-    if (!header) return;
-    const scrolled = window.scrollY > 2;
-    header.classList.toggle("shadow", scrolled);
-    header.classList.toggle("shadow-soft", scrolled);
-};
-
-addShadowOnScroll();
-window.addEventListener("scroll", addShadowOnScroll);
-
 // Header reveal animation on first paint
 const siteHeader = document.getElementById("site-header");
 if (siteHeader) {
@@ -101,22 +29,23 @@ if (siteHeader) {
 // Simple client-side include for header/footer partials
 async function includePartials() {
     const placeholders = document.querySelectorAll("[data-include]");
-    if (!placeholders.length) return;
-    await Promise.all(
-        Array.from(placeholders).map(async (el) => {
-            const url = el.getAttribute("data-include");
-            if (!url) return;
-            try {
-                const res = await fetch(url, { cache: "no-cache" });
-                const html = await res.text();
-                el.outerHTML = html;
-            } catch (e) {
-                // eslint-disable-next-line no-console
-                console.warn("Failed to include", url, e);
-            }
-        })
-    );
-    // After includes are injected, initialize header interactions and reveal
+    if (placeholders.length) {
+        await Promise.all(
+            Array.from(placeholders).map(async (el) => {
+                const url = el.getAttribute("data-include");
+                if (!url) return;
+                try {
+                    const res = await fetch(url, { cache: "no-cache" });
+                    const html = await res.text();
+                    el.outerHTML = html;
+                } catch (e) {
+                    // eslint-disable-next-line no-console
+                    console.warn("Failed to include", url, e);
+                }
+            })
+        );
+    }
+    // Initialize interactions even if there were no placeholders
     setupHeaderInteractions();
     setupMediaMarquee();
 }
@@ -133,18 +62,7 @@ function setupHeaderInteractions() {
         document.querySelector("header");
     if (headerEl) headerEl.classList.remove("-translate-y-6", "opacity-0");
 
-    // Mobile menu wiring (match Blade ids)
-    const mmBtn = document.getElementById("mobile-menu-button");
-    const mm = document.getElementById("mobile-menu");
-    if (mmBtn && mm && !mmBtn.dataset.bound) {
-        mmBtn.addEventListener("click", toggleMobileMenu);
-        mm.querySelectorAll("a").forEach((a) =>
-            a.addEventListener("click", () => {
-                if (!mm.classList.contains("opacity-0")) toggleMobileMenu();
-            })
-        );
-        mmBtn.dataset.bound = "true";
-    }
+    // Mobile menu is handled by inline JavaScript in header
 
     // Desktop active indicator + click smooth scroll with header offset
     const links = Array.from(

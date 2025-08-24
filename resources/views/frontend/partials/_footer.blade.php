@@ -1,6 +1,6 @@
 <footer
   id="contact"
-  class="border-t border-slate-200 bg-gradient-to-r from-indigo-950 to-slate-900 text-slate-200"
+  class="border-t border-slate-200 text-white/90 bg-[linear-gradient(110deg,_#B7C1D3_0%,_#7E889B_30%,_#3B4F70_65%,_#001233_100%)]"
 >
   <div class="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:py-14 sm:px-6 lg:px-8">
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -19,7 +19,7 @@
             2025
           </span>
         </div>
-        <p class="mt-4 text-sm text-slate-300 leading-relaxed">
+        <p class="mt-4 text-sm text-white/80 leading-relaxed">
           Celebrating our rich cultural heritage through music, dance, food, and traditions.
           Join us for an unforgettable cultural experience.
         </p>
@@ -29,10 +29,21 @@
       <div>
         <h4 class="text-sm font-semibold text-white">Quick Links</h4>
         <ul class="mt-4 space-y-2 text-sm">
-          <li><a class="opacity-80 hover:opacity-100 transition" href="#home">Home</a></li>
-          <li><a class="opacity-80 hover:opacity-100 transition" href="#trusted">Sponsors</a></li>
-          <li><a class="opacity-80 hover:opacity-100 transition" href="#events">Events</a></li>
-          <li><a class="opacity-80 hover:opacity-100 transition" href="#highlights">Event Stories</a></li>
+          <li>
+            <a href="{{ route('home') }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Home</a>
+          </li>
+          <li>
+            <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Events</a>
+          </li>
+          <li>
+            <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Sponsors</a>
+          </li>
+          <li>
+            <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Highlights</a>
+          </li>
+          <li>
+            <a href="{{ route('contact') }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Contact</a>
+          </li>
         </ul>
       </div>
 
@@ -41,16 +52,16 @@
         <h4 class="text-sm font-semibold text-white">Event Date</h4>
         <dl class="mt-4 space-y-2 text-sm">
           <div class="flex items-start gap-2">
-            <dt class="w-16 text-slate-400">Dates:</dt>
-            <dd>December 15–17, 2025</dd>
+            <dt class="w-16 text-white/70">Dates:</dt>
+            <dd class="text-white/85">December 15–17, 2025</dd>
           </div>
           <div class="flex items-start gap-2">
-            <dt class="w-16 text-slate-400">Time:</dt>
-            <dd>10:00 AM — 10:00 PM Daily</dd>
+            <dt class="w-16 text-white/70">Time:</dt>
+            <dd class="text-white/85">10:00 AM — 10:00 PM Daily</dd>
           </div>
           <div class="flex items-start gap-2">
-            <dt class="w-16 text-slate-400">Venue:</dt>
-            <dd>Tarahara Bazaar, Basketball Court</dd>
+            <dt class="w-16 text-white/70">Venue:</dt>
+            <dd class="text-white/85">Tarahara Bazaar, Basketball Court</dd>
           </div>
         </dl>
       </div>
@@ -61,35 +72,26 @@
         <ul class="mt-4 space-y-2 text-sm">
           <li>Tarahara Bazaar Itahari-2<br />Sunsari Nepal</li>
           <li>+977 9800000977</li>
-          <li><a href="mailto:info@taraharautsav.com" class="hover:text-slate-100 transition">info@taraharautsav.com</a></li>
+          <li><a href="mailto:info@taraharautsav.com" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">info@taraharautsav.com</a></li>
         </ul>
       </div>
 
     </div>
 
     <!-- Bottom Bar -->
-    <div class="mt-8 border-t border-white/10 pt-6 text-xs text-slate-400">
+    <div class="mt-8 border-t border-white/10 pt-6 text-xs text-white/65">
       <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <a href="#" class="hover:text-slate-200 transition">Terms & Privacy</a>
+        <a href="#" class="relative inline-block text-white/75 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Terms & Privacy</a>
         <p>© 2025 Tarahara Utsav. All rights reserved.</p>
         <div class="flex items-center gap-4">
-          <!-- Facebook -->
-          <a aria-label="Facebook" href="#" class="hover:text-white transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1.9 0 1.8.1 2 .1v2.2h-1.1c-1 0-1.3.6-1.3 1.2V12h2.5l-.4 3h-2.1v7A10 10 0 0 0 22 12"/>
-            </svg>
+          <a aria-label="Facebook" href="#" class="opacity-80 hover:opacity-100 transition" title="Facebook">
+            <img src="{{ asset('assets/social-facebook.svg') }}" alt="Facebook" class="h-4 w-4" />
           </a>
-          <!-- Twitter/X -->
-          <a aria-label="Twitter" href="#" class="hover:text-white transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18 2h3l-7 9 8 11h-6l-5-7-5 7H1l8-11L2 2h6l4 6z"/>
-            </svg>
+          <a aria-label="X" href="#" class="opacity-80 hover:opacity-100 transition" title="X">
+            <img src="{{ asset('assets/social-x.svg') }}" alt="X" class="h-4 w-4" />
           </a>
-          <!-- LinkedIn -->
-          <a aria-label="LinkedIn" href="#" class="hover:text-white transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 24V7h9v17h-9zM13.5 24V14.5c0-2.5 1.8-4.5 4-4.5s4 2 4 4.5V24h-8z"/>
-            </svg>
+          <a aria-label="LinkedIn" href="#" class="opacity-80 hover:opacity-100 transition" title="LinkedIn">
+            <img src="{{ asset('assets/social-linkedin.svg') }}" alt="LinkedIn" class="h-4 w-4" />
           </a>
         </div>
       </div>

@@ -92,7 +92,7 @@
 
           <!-- Mobile menu button -->
           <div class="md:hidden">
-              <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all duration-300 hover:scale-105 border border-gray-200" onclick="toggleMobileMenu()">
+              <button type="button" id="mobile-menu-button" class="relative z-50 inline-flex items-center justify-center p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all duration-300 hover:scale-105 border border-gray-200 pointer-events-auto" onclick="toggleMobileMenu()" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open main menu">
                   <span class="sr-only">Open main menu</span>
                   <div class="w-6 h-5 flex flex-col justify-between">
                       <span id="line1" class="block h-0.5 w-full bg-gray-700 rounded transition-all duration-300 transform origin-center"></span>
@@ -179,21 +179,77 @@
   </div>
 </nav>
 <script>
+// Mobile Menu Toggle Function
+function toggleMobileMenu() {
+    const menu = document.getElementById("mobile-menu");
+    const button = document.getElementById("mobile-menu-button");
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const line3 = document.getElementById("line3");
+
+    console.log("Toggle called", { menu, button });
+
+    if (!menu || !button) {
+        console.log("Menu or button not found!");
+        return;
+    }
+
+    if (menu.classList.contains('opacity-0')) {
+        // Open menu
+        menu.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
+        menu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+        // Animate hamburger to X
+        if (line1 && line2 && line3) {
+            line1.style.transform = "rotate(45deg) translate(5px, 5px)";
+            line2.style.opacity = "0";
+            line2.style.transform = "scale(0)";
+            line3.style.transform = "rotate(-45deg) translate(5px, -5px)";
+        }
+
+        // Update button aria
+        button.setAttribute("aria-expanded", "true");
+    } else {
+        // Close menu
+        menu.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+        menu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+        // Animate X back to hamburger
+        if (line1 && line2 && line3) {
+            line1.style.transform = "rotate(0) translate(0, 0)";
+            line2.style.opacity = "1";
+            line2.style.transform = "scale(1)";
+            line3.style.transform = "rotate(0) translate(0, 0)";
+        }
+
+        // Update button aria
+        button.setAttribute("aria-expanded", "false");
+    }
+}
+
+// Make function globally available
+window.toggleMobileMenu = toggleMobileMenu;
+
 // Close mobile menu when a link is clicked; smooth scroll for in-page links
 document.addEventListener('DOMContentLoaded', function () {
   const menu = document.getElementById('mobile-menu');
+  if (!menu) return;
+
   const mobileLinks = Array.from(menu.querySelectorAll('a'));
   mobileLinks.forEach(link => {
     link.addEventListener('click', function (e) {
       const href = link.getAttribute('href') || '';
       const isHash = href.startsWith('#');
+
+      // Only close menu after a small delay to prevent immediate closing
+      setTimeout(() => {
+        if (menu.style.display !== 'none') {
+          toggleMobileMenu();
+        }
+      }, 100);
+
       if (isHash) {
         e.preventDefault();
-      }
-      if (!menu.classList.contains('opacity-0')) {
-        toggleMobileMenu();
-      }
-      if (isHash) {
         const targetEl = document.querySelector(href);
         if (targetEl) {
           const offset = 80;
@@ -205,6 +261,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     });
+  });
+
+  // Close menu when clicking backdrop
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobile-menu');
+    const menuButton = document.getElementById('mobile-menu-button');
+
+    if (!menu.classList.contains('opacity-0') && !menu.contains(e.target) && !menuButton.contains(e.target)) {
+      toggleMobileMenu();
+    }
   });
 });
 </script>
