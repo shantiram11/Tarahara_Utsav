@@ -113,9 +113,9 @@
       <div class="relative bg-white/95 backdrop-blur-xl m-4 rounded-2xl shadow-2xl transform translate-y-8 transition-transform duration-500">
           <div class="p-6 space-y-1">
               <!-- Navigation Links -->
-              <a href="{{ route('home') }}" class="group flex items-center justify-between py-4 px-4 text-red-600 bg-red-50 font-semibold rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
+              <a href="{{ route('home') }}" class="group flex items-center justify-between py-4 px-4 {{ request()->routeIs('home') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-600 hover:text-gray-900 font-medium' }} rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
                   <span>Home</span>
-                  <div class="w-1 h-8 bg-gradient-to-b from-red-600 to-red-500 rounded-full"></div>
+                  <div class="w-1 {{ request()->routeIs('home') ? 'h-8' : 'h-0 group-hover:h-8' }} bg-gradient-to-b {{ request()->routeIs('home') ? 'from-red-600 to-red-500' : 'from-gray-400 to-gray-500' }} rounded-full transition-all duration-300"></div>
               </a>
 
               <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
@@ -128,7 +128,7 @@
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="{{ request()->routeIs('home') ? '#trusted' : route('home').'#trusted' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Highlights</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
@@ -138,9 +138,9 @@
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
-              <a href="{{ route('contact') }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+              <a href="{{ route('contact') }}" class="group flex items-center justify-between py-4 px-4 {{ request()->routeIs('contact') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-600 hover:text-gray-900 font-medium' }} rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
                   <span>Contact</span>
-                  <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
+                  <div class="w-1 {{ request()->routeIs('contact') ? 'h-8' : 'h-0 group-hover:h-8' }} bg-gradient-to-b {{ request()->routeIs('contact') ? 'from-red-600 to-red-500' : 'from-gray-400 to-gray-500' }} rounded-full transition-all duration-300"></div>
               </a>
 
               <!-- Mobile Auth Buttons -->
