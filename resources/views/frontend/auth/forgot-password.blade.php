@@ -1,12 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-<style>
-@keyframes glow {
-    0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.2), inset 0 0 0 1px rgba(239, 68, 68, 0.2); }
-    100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.5), 0 0 60px rgba(239, 68, 68, 0.3), inset 0 0 0 1px rgba(239, 68, 68, 0.4); }
-}
-</style>
+
 <div class="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 flex items-center justify-center p-4 relative overflow-hidden">
     <!-- Background Decorative Elements -->
     <div class="absolute inset-0 overflow-hidden">
@@ -44,7 +39,7 @@
             <p class="text-sm sm:text-base text-gray-600">Enter your email and we'll send you an OTP code.</p>
         </div>
 
-        <div class="bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-red-500/10 p-4 sm:p-6 lg:p-8 border border-red-200/50 shadow-lg" style="animation: glow 2s ease-in-out infinite alternate; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.2), inset 0 0 0 1px rgba(239, 68, 68, 0.2);">
+        <div class="bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-red-500/10 p-4 sm:p-6 lg:p-8 border border-red-200/50 shadow-lg">
             @if (session('status'))
                 <div class="mb-4 text-xs sm:text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg p-2 sm:p-3">
                     {{ session('status') }}

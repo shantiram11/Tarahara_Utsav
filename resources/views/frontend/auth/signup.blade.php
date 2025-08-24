@@ -2,15 +2,6 @@
 
 @section('content')
 <style>
-@keyframes glow {
-    0% {
-        box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.2), inset 0 0 0 1px rgba(239, 68, 68, 0.2);
-    }
-    100% {
-        box-shadow: 0 0 30px rgba(239, 68, 68, 0.5), 0 0 60px rgba(239, 68, 68, 0.3), inset 0 0 0 1px rgba(239, 68, 68, 0.4);
-    }
-}
-
 /* Hide default browser password reveal button */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
@@ -65,7 +56,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
         </div>
 
         <!-- Signup Form Card -->
-        <div class="bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-red-500/10 p-4 sm:p-6 lg:p-8 border border-red-200/50 shadow-lg" style="animation: glow 2s ease-in-out infinite alternate; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(239, 68, 68, 0.2), inset 0 0 0 1px rgba(239, 68, 68, 0.2);">
+        <div class="bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-red-500/10 p-4 sm:p-6 lg:p-8 border border-red-200/50 shadow-lg">
             <form id="signup-form" method="POST" action="{{ route('register') }}" class="space-y-3 sm:space-y-4">
                 @csrf
                 <!-- Fortify expects a 'name' field; compose it from first/last name -->
