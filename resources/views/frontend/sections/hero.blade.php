@@ -1,4 +1,4 @@
-<section class="bg-yellow-50 hero-section pb-8 sm:pb-12 lg:pb-20">
+<section id="hero" class="bg-yellow-50 hero-section pb-8 sm:pb-12 lg:pb-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
             <!-- Left Content -->

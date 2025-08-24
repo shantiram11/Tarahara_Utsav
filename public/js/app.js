@@ -71,27 +71,50 @@ function setupHeaderInteractions() {
     const activeClasses = ["text-red-600", "bg-red-50", "font-semibold"];
 
     const applyActive = (matchHref) => {
+        const homeLink = document.getElementById("home-link");
+
+        // Clear all active states first
         links.forEach((a) => {
+            a.classList.remove(...activeClasses);
             const indicator = a.querySelector(".active-indicator");
-            const target = a.getAttribute("href");
-            const isActive =
-                target === matchHref ||
-                (!matchHref &&
-                    target ===
-                        "" +
-                            (typeof route === "function"
-                                ? route("home")
-                                : "")) ||
-                (!matchHref && target === document.location.pathname);
-            if (indicator)
-                indicator.style.display = isActive ? "block" : "none";
-            a.classList.toggle(activeClasses[0], isActive);
-            a.classList.toggle(activeClasses[1], isActive);
-            a.classList.toggle(activeClasses[2], isActive);
+            if (indicator) indicator.style.display = "none";
         });
+
+        if (homeLink) {
+            homeLink.classList.remove(...activeClasses);
+            const indicator = homeLink.querySelector(".active-indicator");
+            if (indicator) indicator.style.display = "none";
+        }
+
+        if (matchHref && matchHref !== "#" && matchHref !== "#hero") {
+            // Hash link is active (but not hero)
+            links.forEach((a) => {
+                const target = a.getAttribute("href");
+                if (target === matchHref) {
+                    const indicator = a.querySelector(".active-indicator");
+                    if (indicator) indicator.style.display = "block";
+                    a.classList.add(...activeClasses);
+                }
+            });
+        } else {
+            // No hash, empty hash, or hero hash - activate home link
+            if (homeLink) {
+                homeLink.classList.add(...activeClasses);
+                const indicator = homeLink.querySelector(".active-indicator");
+                if (indicator) indicator.style.display = "block";
+            }
+        }
     };
 
-    const setActiveFromHash = () => applyActive(window.location.hash || "");
+    const setActiveFromHash = () => {
+        // Only apply hash-based active states if we're on the home page
+        const isHomePage =
+            window.location.pathname === "/" ||
+            window.location.pathname.includes("home");
+        if (isHomePage) {
+            applyActive(window.location.hash || "");
+        }
+    };
     setActiveFromHash();
     window.addEventListener("hashchange", setActiveFromHash);
 
@@ -180,17 +203,50 @@ const sections = Array.from(linkMap.keys())
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
+// Add hero section for home link activation
+const heroSection = document.getElementById("hero");
+if (heroSection && !sections.includes(heroSection)) {
+    sections.unshift(heroSection); // Add to beginning
+}
+
 const updateActive = (id) => {
+    // Only update active states if we're on the home page
+    const isHomePage =
+        window.location.pathname === "/" ||
+        window.location.pathname.includes("home");
+    if (!isHomePage) return;
+
+    // Get the home link
+    const homeLink = document.getElementById("home-link");
+
+    // Clear all active states first (including home link)
     navLinks.forEach((l) => {
         l.classList.remove(...activeClass);
         const ind = l.querySelector(".active-indicator");
         if (ind) ind.style.display = "none";
     });
-    const link = linkMap.get(id);
-    if (link) {
-        link.classList.add(...activeClass);
-        const ind = link.querySelector(".active-indicator");
-        if (ind) ind.style.display = "block";
+
+    if (homeLink) {
+        homeLink.classList.remove(...activeClass);
+        const ind = homeLink.querySelector(".active-indicator");
+        if (ind) ind.style.display = "none";
+    }
+
+    if (id === "hero" || !id) {
+        // At hero section or top - activate home link
+        if (homeLink) {
+            homeLink.classList.add(...activeClass);
+            const ind = homeLink.querySelector(".active-indicator");
+            if (ind) ind.style.display = "block";
+        }
+    } else {
+        // A specific section is active - activate that section's link
+        const link = linkMap.get(id);
+        if (link) {
+            link.classList.add(...activeClass);
+            const ind = link.querySelector(".active-indicator");
+            if (ind) ind.style.display = "block";
+        }
     }
 };
 
@@ -198,7 +254,15 @@ if (sections.length) {
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) updateActive(entry.target.id);
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    // If hero section is in view, treat it as home
+                    if (sectionId === "hero") {
+                        updateActive("hero");
+                    } else {
+                        updateActive(sectionId);
+                    }
+                }
             });
         },
         {
@@ -207,6 +271,11 @@ if (sections.length) {
         }
     );
     sections.forEach((section) => observer.observe(section));
+
+    // Initialize with Home active if at top of page
+    if (window.scrollY < 100) {
+        updateActive("hero");
+    }
 }
 
 // ==============================

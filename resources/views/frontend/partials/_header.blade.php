@@ -18,9 +18,9 @@
           <div class="hidden md:block">
               <div class="desktop-nav flex items-center space-x-1">
                   <!-- Home Link -->
-                  <a href="{{ route('home') }}" class="nav-link relative px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('home') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-700 hover:text-gray-900' }}">
+                  <a href="{{ route('home') }}" class="nav-link relative px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('home') && !request()->has('_fragment') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-700 hover:text-gray-900' }}" id="home-link">
                       <span>Home</span>
-                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="{{ request()->routeIs('home') ? 'display:block' : 'display:none' }}"></span>
+                      <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
                   <!-- Regular Nav Links -->
