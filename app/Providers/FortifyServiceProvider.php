@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Responses\CustomRegisterResponse;
+use App\Http\Responses\CustomLoginResponse;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -24,6 +25,9 @@ class FortifyServiceProvider extends ServiceProvider
     {
         // Override Fortify's default post-registration behavior
         $this->app->singleton(\Laravel\Fortify\Contracts\RegisterResponse::class, CustomRegisterResponse::class);
+
+        // Override Fortify's default post-login behavior for role-based redirects
+        $this->app->singleton(\Laravel\Fortify\Contracts\LoginResponse::class, CustomLoginResponse::class);
     }
 
     /**
@@ -42,10 +46,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         // Password reset screens still available; comment out to disable
         Fortify::requestPasswordResetLinkView(fn () => view('frontend.auth.forgot-password'));
-        Fortify::resetPasswordView(fn (Request $request) => view('frontend.auth.reset-password', [
-            'token' => $request->route('token'),
-            'email' => $request->email,
-        ]));
+
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

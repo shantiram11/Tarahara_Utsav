@@ -22,8 +22,8 @@ Route::post('/password/otp/verify', [PasswordOtpController::class, 'verifyOtp'])
 Route::get('/password/otp/reset', [PasswordOtpController::class, 'showResetForm'])->name('password.otp.reset.form');
 Route::post('/password/otp/reset', [PasswordOtpController::class, 'resetWithOtp'])->name('password.otp.reset');
 
-// Admin routes
-Route::prefix('admin')->name('admin.')->group(function () {
+// Admin routes - Protected with auth and admin middleware
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile & Password
