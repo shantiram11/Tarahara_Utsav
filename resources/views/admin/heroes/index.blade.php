@@ -106,14 +106,11 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-/* Horizontal gallery (no outer card) */
+/* Responsive grid gallery - wraps to next row instead of horizontal scroll */
 .masonry {
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 16px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    scroll-snap-type: x mandatory;
 }
 .masonry-item {
     position: relative;
@@ -121,12 +118,10 @@
     overflow: hidden;
     background: #fff;
     box-shadow: 0 4px 16px rgba(18, 38, 63, .06);
-    flex: 0 0 auto;
-    scroll-snap-align: start;
 }
 .masonry-img {
     height: 240px;
-    width: auto;
+    width: 100%;
     display: block;
     object-fit: contain;
     background: #f7f9fc;
@@ -254,8 +249,22 @@ function removeImage(heroId, imageIndex) {
     .then(r => r.json())
     .then(data => {
         if (!data.success) throw new Error(data.message || 'Failed');
-        const item = document.getElementById(`gallery-${imageIndex}`);
-        if (item) { item.style.opacity = '0'; item.style.transform = 'scale(.9)'; setTimeout(()=>item.remove(), 180); }
+        const item = document.getElementById(`masonry-${imageIndex}`);
+        if (item) {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(.9)';
+            setTimeout(() => {
+                const masonry = item.closest('.masonry');
+                item.remove();
+                // If no items left, show empty state without full page refresh
+                if (masonry && masonry.querySelectorAll('.masonry-item').length === 0) {
+                    const empty = document.createElement('div');
+                    empty.className = 'text-center py-5';
+                    empty.innerHTML = '<i class="ri-image-line text-muted" style="font-size: 2.5rem;"></i>\n<p class="text-muted mt-2 mb-0">No images uploaded yet</p>';
+                    masonry.replaceWith(empty);
+                }
+            }, 180);
+        }
         const counter = document.getElementById(`imageCount-${heroId}`);
         if (counter) counter.textContent = `${data.remaining_images} image(s)`;
         showAlert('success', 'Image removed successfully');
@@ -286,7 +295,6 @@ function applyResolutionBadges() {
         }
     });
 }
-
 document.addEventListener('DOMContentLoaded', applyResolutionBadges);
 </script>
 @endpush

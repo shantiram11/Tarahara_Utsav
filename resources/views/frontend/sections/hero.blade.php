@@ -4,6 +4,11 @@
     $description = $heroData['description'] ?? 'From soulful music to savory bites, this festival is a colorful journey through community, creativity, and culture!';
     $images = $heroData['images'] ?? [];
     $fallbackImages = $heroData['fallbackImages'] ?? [];
+
+    // Helper function to safely get image or fallback
+    function getSafeImage($images, $fallbackImages, $index, $fallbackIndex) {
+        return isset($images[$index]) ? $images[$index] : $fallbackImages[$fallbackIndex];
+    }
 @endphp
 
 <section id="hero" class="bg-yellow-50 hero-section pb-8 sm:pb-12 lg:pb-20">
@@ -76,24 +81,24 @@
                 <div class="relative w-full h-[380px] sm:h-[400px] lg:h-[600px] flex items-center justify-center overflow-hidden">
                     <!-- Background Images -->
                     <div class="absolute top-2 sm:top-8 left-1 sm:left-4 w-28 sm:w-40 lg:w-48 h-32 sm:h-50 lg:h-60 bg-image-1">
-                        <img id="bg-image-1" src="{{ $hasImages ? $images[0] : $fallbackImages[1] }}" alt="Background Image" class="bg-image">
+                        <img id="bg-image-1" src="{{ getSafeImage($images, $fallbackImages, 0, 1) }}" alt="Background Image" class="bg-image">
                     </div>
 
                     <div class="absolute bottom-2 sm:bottom-12 right-1 sm:right-8 w-24 sm:w-36 lg:w-44 h-28 sm:h-46 lg:h-56 bg-image-2">
-                        <img id="bg-image-2" src="{{ $hasImages ? $images[1] : $fallbackImages[2] }}" alt="Background Image" class="bg-image">
+                        <img id="bg-image-2" src="{{ getSafeImage($images, $fallbackImages, 1, 2) }}" alt="Background Image" class="bg-image">
                     </div>
 
                     <div class="absolute top-6 sm:top-16 right-4 sm:right-12 w-24 sm:w-32 lg:w-40 h-28 sm:h-42 lg:h-52 bg-image-3 hidden sm:block">
-                        <img id="bg-image-3" src="{{ $hasImages ? $images[2] : $fallbackImages[3] }}" alt="Background Image" class="bg-image">
+                        <img id="bg-image-3" src="{{ getSafeImage($images, $fallbackImages, 2, 3) }}" alt="Background Image" class="bg-image">
                     </div>
 
                     <div class="absolute bottom-2 sm:bottom-8 left-4 sm:left-12 w-24 sm:w-34 lg:w-42 h-24 sm:h-38 lg:h-48 bg-image-4 hidden sm:block">
-                        <img id="bg-image-4" src="{{ $hasImages ? $images[3] : $fallbackImages[0] }}" alt="Background Image" class="bg-image">
+                        <img id="bg-image-4" src="{{ getSafeImage($images, $fallbackImages, 3, 0) }}" alt="Background Image" class="bg-image">
                     </div>
 
                     <!-- Main Image -->
                     <div class="main-image-container">
-                        <img id="cycling-image" src="{{ $hasImages ? $images[0] : $fallbackImages[0] }}" alt="Festival Image" class="main-image">
+                        <img id="cycling-image" src="{{ getSafeImage($images, $fallbackImages, 0, 0) }}" alt="Festival Image" class="main-image">
                     </div>
                 </div>
             </div>

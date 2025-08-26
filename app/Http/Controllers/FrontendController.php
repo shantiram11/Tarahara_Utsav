@@ -37,6 +37,7 @@ class FrontendController extends Controller
                 $data['images'] = collect($hero->images)
                     ->filter() // Remove any null/empty values
                     ->map(fn($path) => Storage::url($path))
+                    ->values() // Re-index array to ensure sequential keys
                     ->toArray();
             }
 
@@ -44,6 +45,7 @@ class FrontendController extends Controller
         } catch (\Exception $e) {
             // Log error and return fallback data
             \Log::error('Error fetching hero data: ' . $e->getMessage());
+            return $data;
         }
     }
 
