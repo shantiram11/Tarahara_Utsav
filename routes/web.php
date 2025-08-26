@@ -5,15 +5,13 @@ use App\Http\Controllers\Auth\PasswordOtpController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\FrontendController;
 
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('home');
+Route::get('/', [FrontendController::class, 'home'])->name('home');
 
 // Contact page
-Route::get('/contact', function () {
-    return view('frontend.contact');
-})->name('contact');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 // Password reset via OTP
 Route::post('/password/otp/send', [PasswordOtpController::class, 'sendOtp'])->name('password.otp.send');
@@ -40,4 +38,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    // Hero CRUD
+    Route::get('/heroes', [HeroController::class, 'index'])->name('heroes.index');
+    Route::get('/heroes/create', [HeroController::class, 'create'])->name('heroes.create');
+    Route::post('/heroes', [HeroController::class, 'store'])->name('heroes.store');
+    Route::get('/heroes/{hero}/edit', [HeroController::class, 'edit'])->name('heroes.edit');
+    Route::put('/heroes/{hero}', [HeroController::class, 'update'])->name('heroes.update');
+    Route::delete('/heroes/{hero}', [HeroController::class, 'destroy'])->name('heroes.destroy');
+    Route::delete('/heroes/{hero}/images/{imageIndex}', [HeroController::class, 'removeImage'])->name('heroes.remove-image');
 });

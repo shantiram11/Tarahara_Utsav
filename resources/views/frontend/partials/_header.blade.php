@@ -52,12 +52,12 @@
                   @auth
                       <!-- Authenticated User -->
                       @if(auth()->user()->isAdmin())
-                      <a href="" class="relative group ml-2 px-5 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl border border-gray-300 hover:border-gray-400 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md overflow-hidden">
+                      <a href="{{ route('admin.dashboard') }}" class="relative group ml-2 px-5 py-3 text-gray-600 hover:text-gray-900 font-medium text-sm rounded-xl border border-gray-300 hover:border-gray-400 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md overflow-hidden">
                           <span class="relative z-10 flex items-center space-x-2">
                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                               </svg>
-                              <span>Dashboard</span>
+                              <button>Dashboard</button>
                           </span>
                           <div class="absolute inset-0 bg-gray-50 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></div>
                       </a>
