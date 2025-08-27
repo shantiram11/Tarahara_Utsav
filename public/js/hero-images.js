@@ -1,25 +1,22 @@
 (function () {
     const form = document.getElementById("heroForm");
-    if (!form) return; // Not on a hero form page
+    if (!form) return;
 
     const config = {
         submitUrl: form.dataset.submitUrl || "",
         method: form.dataset.method || "POST",
         methodOverride: form.dataset.methodOverride || "",
         requireImages: (form.dataset.requireImages || "false") === "true",
-        heroId: form.dataset.heroId || "",
-        successRedirect: form.dataset.successRedirect || "",
-        targetW: Number(form.dataset.targetW || form.dataset.targetw || 940),
-        targetH: Number(form.dataset.targetH || form.dataset.targeth || 1328),
+        targetW: Number(form.dataset.targetW || 940),
+        targetH: Number(form.dataset.targetH || 1328),
     };
 
     let selectedImages = [];
     let fileQueue = [];
-    let currentFile = null;
     let isProcessing = false;
 
     const input = document.getElementById("collageImagesInput");
-    if (input && input.addEventListener) {
+    if (input) {
         input.addEventListener("change", function (e) {
             const files = Array.from(e.target.files || []);
             const error = document.getElementById("imagesError");
@@ -48,8 +45,6 @@
                 });
                 if (!isProcessing) processNextFile();
             }
-
-            // Allow reselecting same files
             input.value = "";
         });
     }
@@ -102,8 +97,8 @@
     function displaySelectedImage(imageId, file) {
         const container = document.getElementById("selectedImagesContainer");
         if (!container) return;
-        const reader = new FileReader();
 
+        const reader = new FileReader();
         reader.onload = function (e) {
             const imageCard = document.createElement("div");
             imageCard.className = "image-card";
@@ -126,10 +121,8 @@
                     </div>
                 </div>
             `;
-
             container.appendChild(imageCard);
         };
-
         reader.readAsDataURL(file);
     }
 
@@ -169,12 +162,10 @@
         }
     }
 
-    if (form && form.addEventListener) {
+    // Form submission
+    if (form) {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
-
-            clearErrors();
-
             if (!validateForm()) return;
 
             const formData = new FormData();
@@ -196,160 +187,79 @@
                 formData.append(`images[${index}]`, imageData.file);
             });
 
-            const submitBtn = document.getElementById("submitBtn");
-            const spinner = document.getElementById("submitSpinner");
-            if (submitBtn && spinner) {
-                submitBtn.disabled = true;
-                spinner.classList.remove("d-none");
-            }
-
-            fetch(config.submitUrl, {
-                method: config.method || "POST",
-                body: formData,
-                headers: {
-                    Accept: "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-            })
-                .then((response) => {
-                    if (!response.ok)
-                        throw new Error(
-                            `HTTP error! status: ${response.status}`
-                        );
-                    const contentType = response.headers.get("content-type");
-                    if (!contentType?.includes("application/json")) {
-                        return response.text().then(() => {
-                            throw new Error(
-                                "Server returned HTML instead of JSON. Please check authentication."
-                            );
-                        });
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    if (data.success) {
-                        showAlert("success", data.message || "Success");
-                        if (config.successRedirect) {
-                            setTimeout(() => {
-                                window.location.href = config.successRedirect;
-                            }, 1500);
-                        }
-                    } else {
-                        if (data.errors) {
-                            let errorMessages = [];
-                            Object.keys(data.errors).forEach((field) => {
-                                if (field === "images") {
-                                    showFieldError(
-                                        "imagesError",
-                                        data.errors[field].join(", ")
-                                    );
-                                }
-                                errorMessages.push(
-                                    `${field}: ${data.errors[field].join(", ")}`
-                                );
-                            });
-                            showAlert(
-                                "danger",
-                                "Validation errors: " +
-                                    errorMessages.join(" | ")
-                            );
-                        } else if (data.redirect) {
-                            showAlert(
-                                "warning",
-                                data.message || "Authentication required"
-                            );
-                            setTimeout(() => {
-                                window.location.href = data.redirect;
-                            }, 2000);
-                        } else {
-                            showAlert(
-                                "danger",
-                                data.message || "An error occurred"
-                            );
-                        }
-                    }
-                })
-                .catch((error) => {
-                    showAlert("danger", `Error: ${error.message}`);
-                })
-                .finally(() => {
-                    if (submitBtn && spinner) {
-                        submitBtn.disabled = false;
-                        spinner.classList.add("d-none");
-                    }
-                });
+            submitForm(formData);
         });
     }
 
     function validateForm() {
-        let isValid = true;
         if (config.requireImages && selectedImages.length === 0) {
             showFieldError(
                 "imagesError",
                 "Please select at least one image for the hero section"
             );
-            showAlert(
-                "danger",
-                "Please select at least one image before submitting"
-            );
-            isValid = false;
+            return false;
         }
-        const description = document
-            .getElementById("description")
-            ?.value.trim();
-        if (description && description.length > 1000) {
-            showFieldError(
-                "descriptionError",
-                "Description must be less than 1000 characters"
-            );
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    function clearErrors() {
-        document.querySelectorAll(".invalid-feedback").forEach((error) => {
-            error.style.display = "none";
-            error.textContent = "";
-        });
-        document.querySelectorAll(".is-invalid").forEach((field) => {
-            field.classList.remove("is-invalid");
-        });
+        return true;
     }
 
     function showFieldError(fieldId, message) {
         const errorElement = document.getElementById(fieldId);
         if (errorElement) {
-            const field = errorElement.previousElementSibling;
             errorElement.textContent = message;
             errorElement.style.display = "block";
-            if (field) field.classList.add("is-invalid");
         }
     }
 
-    function showAlert(type, message) {
-        const alertContainer = document.getElementById("alert-container");
-        const alertHtml = `
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `;
-        if (alertContainer) alertContainer.innerHTML = alertHtml;
-        setTimeout(() => {
-            const alert = alertContainer?.querySelector(".alert");
-            if (alert) {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-            }
-        }, 5000);
+    function submitForm(formData) {
+        const submitBtn = document.getElementById("submitBtn");
+        const spinner = document.getElementById("submitSpinner");
+
+        if (submitBtn && spinner) {
+            submitBtn.disabled = true;
+            spinner.classList.remove("d-none");
+        }
+
+        fetch(config.submitUrl, {
+            method: config.method || "POST",
+            body: formData,
+            headers: {
+                Accept: "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }
+                } else {
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach((field) => {
+                            if (field === "images") {
+                                showFieldError(
+                                    "imagesError",
+                                    data.errors[field].join(", ")
+                                );
+                            }
+                        });
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            })
+            .finally(() => {
+                if (submitBtn && spinner) {
+                    submitBtn.disabled = false;
+                    spinner.classList.add("d-none");
+                }
+            });
     }
 
-    // Expose current-image removal for edit page
+    // Current image removal for edit page
     window.removeCurrentImage = function (heroId, imageIndex) {
-        if (!confirm("Are you sure you want to remove this image?")) {
-            return;
-        }
+        if (!confirm("Are you sure you want to remove this image?")) return;
 
         const imageCard = document.getElementById(
             `current-image-${imageIndex}`
@@ -366,7 +276,6 @@
             method: "DELETE",
             headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
                 "X-CSRF-TOKEN":
                     document
@@ -374,19 +283,7 @@
                         ?.getAttribute("content") || "",
             },
         })
-            .then((response) => {
-                if (!response.ok)
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                const contentType = response.headers.get("content-type");
-                if (!contentType?.includes("application/json")) {
-                    return response.text().then(() => {
-                        throw new Error(
-                            "Server returned HTML instead of JSON. Please check authentication."
-                        );
-                    });
-                }
-                return response.json();
-            })
+            .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
                     if (imageCard) {
@@ -397,23 +294,19 @@
                             imageCard.remove();
                             const badge =
                                 document.querySelector(".badge.bg-warning");
-                            if (badge) {
+                            if (badge)
                                 badge.textContent = data.remaining_images;
-                            }
                             if (data.remaining_images === 0) {
                                 const currentImagesSection =
                                     document.querySelector(
                                         ".mt-3:has(.current-images-grid)"
                                     );
-                                if (currentImagesSection) {
+                                if (currentImagesSection)
                                     currentImagesSection.remove();
-                                }
                             }
                         }, 300);
                     }
-                    showAlert("success", data.message || "Removed");
                 } else {
-                    showAlert("danger", data.message || "Error removing image");
                     if (removeBtn) {
                         removeBtn.disabled = false;
                         removeBtn.innerHTML = '<i class="ri-close-line"></i>';
@@ -421,7 +314,7 @@
                 }
             })
             .catch((error) => {
-                showAlert("danger", `Error: ${error.message}`);
+                console.error("Error:", error);
                 if (removeBtn) {
                     removeBtn.disabled = false;
                     removeBtn.innerHTML = '<i class="ri-close-line"></i>';
@@ -429,10 +322,8 @@
             });
     };
 
-    // Initial UI state
-    if (document.addEventListener) {
-        document.addEventListener("DOMContentLoaded", function () {
-            updateSelectedImagesCount();
-        });
-    }
+    // Initialize
+    document.addEventListener("DOMContentLoaded", function () {
+        updateSelectedImagesCount();
+    });
 })();

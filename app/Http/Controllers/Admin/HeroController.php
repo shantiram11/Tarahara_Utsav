@@ -207,11 +207,15 @@ class HeroController extends Controller
         if ($request->expectsJson()) {
             $response = [
                 'success' => true,
-                'message' => $message
+                'message' => $message,
             ];
 
             if ($hero) {
                 $response['hero'] = $hero;
+            }
+
+            if ($route) {
+                $response['redirect'] = route($route);
             }
 
             return response()->json($response);

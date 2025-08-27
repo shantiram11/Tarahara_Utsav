@@ -9,7 +9,16 @@ use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\FrontendController;
 
-Route::get('/', [FrontendController::class, 'home'])->name('home');
+$productionFrontPage = app()->environment("production") ? '/utsav' : '/';
+
+// Root route - shows welcome page
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
+// Main frontend route - production: /utsav, local: /
+Route::get($productionFrontPage, [FrontendController::class, 'home'])->name('home');
+
 
 // Contact page
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');

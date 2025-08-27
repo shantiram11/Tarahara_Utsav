@@ -79,10 +79,15 @@ class AboutController extends Controller
         $about->save();
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'about' => $about]);
+            return response()->json([
+                'success' => true,
+                'about' => $about,
+                'redirect' => route('admin.about.index'),
+                'message' => 'About section updated'
+            ]);
         }
 
-        return redirect()->back()->with('success', 'About section updated');
+        return redirect()->route('admin.about.index')->with('success', 'About section updated');
     }
 
     public function store(Request $request)
@@ -126,7 +131,12 @@ class AboutController extends Controller
         $about->save();
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'about' => $about]);
+            return response()->json([
+                'success' => true,
+                'about' => $about,
+                'redirect' => route('admin.about.index'),
+                'message' => 'About section created'
+            ]);
         }
         return redirect()->route('admin.about.index')->with('success', 'About section created');
     }

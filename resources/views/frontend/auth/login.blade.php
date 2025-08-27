@@ -43,7 +43,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
     <!-- Logo positioned on the right side -->
     <div class="absolute top-4 right-4 sm:top-8 sm:right-8 z-20">
         <div class="py-0">
-            <img src="{{ asset('assets/logo.png') }}" alt="Tarahara Utsav" class="h-10 sm:h-12 lg:h-16 w-auto">
+            <img src="{{ asset('assets/Logo.png') }}" alt="Tarahara Utsav" class="h-10 sm:h-12 lg:h-16 w-auto">
         </div>
     </div>
 

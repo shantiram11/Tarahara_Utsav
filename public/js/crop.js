@@ -1,4 +1,4 @@
-// Shared Image Cropping Utilities
+// Essential Image Cropping Utilities
 window.ImageCropper = (function () {
     let cropper = null;
     let cropModalInstance = null;
@@ -17,6 +17,7 @@ window.ImageCropper = (function () {
 
         const modalEl = document.getElementById("cropModal");
         if (!modalEl) return;
+
         cropModalInstance = new bootstrap.Modal(modalEl);
 
         modalEl.addEventListener(
@@ -41,10 +42,12 @@ window.ImageCropper = (function () {
         if (cropBtn) {
             cropBtn.onclick = function () {
                 if (!cropper) return;
+
                 const canvas = cropper.getCroppedCanvas({
                     width: targetW,
                     height: targetH,
                 });
+
                 canvas.toBlob(function (blob) {
                     const croppedFile = new File([blob], file.name, {
                         type: file.type,
@@ -62,6 +65,7 @@ window.ImageCropper = (function () {
     function initializeCropper(file, targetW, targetH) {
         const cropArea = document.getElementById("cropArea");
         if (!cropArea) return;
+
         cropArea.innerHTML = "";
 
         const img = document.createElement("img");

@@ -1,6 +1,6 @@
 (function () {
     const form = document.getElementById("aboutForm");
-    if (!form) return; // Not on an about form page
+    if (!form) return;
 
     const config = {
         targetW: Number(form.dataset.targetW || 1080),
@@ -12,7 +12,7 @@
     let isProcessing = false;
 
     const input = document.getElementById("collageImagesInput");
-    if (input && input.addEventListener) {
+    if (input) {
         input.addEventListener("change", function (e) {
             const files = Array.from(e.target.files || []);
             const error = document.getElementById("imagesError");
@@ -41,8 +41,6 @@
                 });
                 if (!isProcessing) processNextFile();
             }
-
-            // Allow reselecting same files
             input.value = "";
         });
     }
@@ -95,8 +93,8 @@
     function displaySelectedImage(imageId, file) {
         const container = document.getElementById("selectedImagesContainer");
         if (!container) return;
-        const reader = new FileReader();
 
+        const reader = new FileReader();
         reader.onload = function (e) {
             const imageCard = document.createElement("div");
             imageCard.className = "image-card";
@@ -119,10 +117,8 @@
                     </div>
                 </div>
             `;
-
             container.appendChild(imageCard);
         };
-
         reader.readAsDataURL(file);
     }
 
@@ -162,16 +158,10 @@
         }
     }
 
-    // Simple form submission without complex AJAX handling
-    if (form && form.addEventListener) {
+    // Form submission
+    if (form) {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
-
-            // Clear previous errors
-            document.querySelectorAll(".invalid-feedback").forEach((error) => {
-                error.style.display = "none";
-                error.textContent = "";
-            });
 
             // Check if even number of images
             if (selectedImages.length % 2 !== 0) {
@@ -196,7 +186,6 @@
                 input.name = `images[${index}]`;
                 input.style.display = "none";
 
-                // Create a new FileList with our file
                 const dt = new DataTransfer();
                 dt.items.add(imageData.file);
                 input.files = dt.files;
@@ -204,15 +193,12 @@
                 form.appendChild(input);
             });
 
-            // Submit the form normally
             form.submit();
         });
     }
 
-    // Initial UI state
-    if (document.addEventListener) {
-        document.addEventListener("DOMContentLoaded", function () {
-            updateSelectedImagesCount();
-        });
-    }
+    // Initialize
+    document.addEventListener("DOMContentLoaded", function () {
+        updateSelectedImagesCount();
+    });
 })();
