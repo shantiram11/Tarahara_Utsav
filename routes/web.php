@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\FrontendController;
 
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -47,4 +48,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/heroes/{hero}', [HeroController::class, 'update'])->name('heroes.update');
     Route::delete('/heroes/{hero}', [HeroController::class, 'destroy'])->name('heroes.destroy');
     Route::delete('/heroes/{hero}/images/{imageIndex}', [HeroController::class, 'removeImage'])->name('heroes.remove-image');
+
+    // About (dynamic about-us section)
+    Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+    Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
+    Route::post('/about', [AboutController::class, 'store'])->name('about.store');
+    Route::get('/about/edit', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('/about/update', [AboutController::class, 'update'])->name('about.update');
+    Route::delete('/about/images/{index}', [AboutController::class, 'removeImage'])->name('about.images.remove');
+    Route::delete('/about', [AboutController::class, 'destroy'])->name('about.destroy');
 });

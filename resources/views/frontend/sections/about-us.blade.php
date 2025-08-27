@@ -10,23 +10,19 @@
       >
 
       <h3 class="text-4xl font-semibold text-slate-900 md:text-6xl">
-        About Tarahara Utsav
+        {{ $aboutData['title'] }}
       </h3>
       <p class="my-4 text-base text-slate-600 md:my-6 md:text-lg">
-        Tarahara Utsav 2025 is a vibrant cultural celebration that brings
-        together communities, artists, and culinary talents who make a
-        meaningful impact on our society and local economy. Over three
-        inspiring days, the fair showcases music, dance, art, food, and
-        craftsmanship—celebrating achievers and traditions that inspire
-        future generations with excellence, creativity, and community
-        spirit.
+        {{ $aboutData['content'] }}
       </p>
-
     </div>
     <div>
       <div
         id="shuffle-grid"
-        class="grid h-[450px] grid-cols-4 grid-rows-4 gap-1 overflow-hidden rounded-xl"
+        class="grid h-[450px] gap-1 overflow-hidden rounded-xl"
+        data-images="{{ json_encode($aboutData['images']) }}"
+        data-fallback-images="{{ json_encode($aboutData['fallbackImages']) }}"
+        data-has-images="{{ $aboutData['hasImages'] ? 'true' : 'false' }}"
       >
         <!-- Tiles will be injected by app.js -->
       </div>

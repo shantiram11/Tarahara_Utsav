@@ -22,6 +22,14 @@
       </a>
     </li>
 
+    <!-- About -->
+    <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('admin.about.*') ? 'active' : '' }}" href="{{ route('admin.about.index') }}">
+        <i class="nav-icon ri-information-line"></i>
+        <span>Manage About Section</span>
+      </a>
+    </li>
+
     <li class="nav-group">
       <a class="nav-link nav-group-toggle" href="#">
         <i class="nav-icon ri-team-line"></i>

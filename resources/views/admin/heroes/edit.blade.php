@@ -430,5 +430,6 @@
 }
  </style>
 
+<script src="{{ asset('js/crop.js') }}"></script>
 <script src="{{ asset('js/hero-images.js') }}"></script>
 @endpush

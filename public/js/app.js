@@ -359,11 +359,74 @@ function shuffle(array) {
     return a;
 }
 
+function calculateGridLayout(imageCount) {
+    // For even numbers of images, create a balanced grid
+    if (imageCount <= 0) return { cols: 4, rows: 4 }; // fallback
+
+    if (imageCount === 2) return { cols: 2, rows: 1 };
+    if (imageCount === 4) return { cols: 2, rows: 2 };
+    if (imageCount === 6) return { cols: 3, rows: 2 };
+    if (imageCount === 8) return { cols: 4, rows: 2 };
+    if (imageCount === 10) return { cols: 5, rows: 2 };
+    if (imageCount === 12) return { cols: 4, rows: 3 };
+    if (imageCount === 14) return { cols: 7, rows: 2 };
+    if (imageCount === 16) return { cols: 4, rows: 4 };
+
+    // For other even numbers, try to make a balanced rectangle
+    const sqrt = Math.sqrt(imageCount);
+    const cols = Math.ceil(sqrt);
+    const rows = Math.ceil(imageCount / cols);
+
+    return { cols, rows };
+}
+
 function renderShuffleGrid() {
     const container = document.getElementById("shuffle-grid");
     if (!container) return;
 
-    const shuffled = shuffle(squareData);
+    // Get dynamic image data from the container
+    const hasImages = container.dataset.hasImages === "true";
+    let images = [];
+    let fallbackImages = [];
+
+    if (hasImages) {
+        try {
+            images = JSON.parse(container.dataset.images || "[]");
+        } catch (e) {
+            console.warn("Failed to parse image data:", e);
+            images = [];
+        }
+    }
+
+    // Try to get fallback images from data attribute
+    try {
+        fallbackImages = JSON.parse(container.dataset.fallbackImages || "[]");
+    } catch (e) {
+        console.warn("Failed to parse fallback image data:", e);
+        fallbackImages = [];
+    }
+
+    // Use database images first, then fallback images, then hardcoded data
+    let dataToUse;
+    if (images.length > 0) {
+        dataToUse = images.map((src, index) => ({ id: index + 1, src }));
+    } else if (fallbackImages.length > 0) {
+        dataToUse = fallbackImages.map((src, index) => ({
+            id: index + 1,
+            src,
+        }));
+    } else {
+        dataToUse = squareData;
+    }
+
+    const shuffled = shuffle(dataToUse);
+
+    // Calculate grid layout based on image count
+    const layout = calculateGridLayout(shuffled.length);
+
+    // Update container classes for dynamic grid
+    container.className = `grid h-[450px] gap-1 overflow-hidden rounded-xl grid-cols-${layout.cols} grid-rows-${layout.rows}`;
+
     container.innerHTML = "";
     shuffled.forEach((sq, i) => {
         const tile = document.createElement("div");
@@ -392,112 +455,6 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", startShuffleLoop);
 } else {
     startShuffleLoop();
-}
-
-// ==============================
-// Auto sliding hero (crossfade)
-// ==============================
-const heroSlides = [
-    {
-        title: "Celebrate Culture, Food, Art and Community",
-        caption:
-            "A three-day cultural fair featuring music, dance, workshops, and authentic cuisines — bringing communities together.",
-        src: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop",
-    },
-    {
-        title: "Vibrant Parades and Live Performances",
-        caption:
-            "Experience colorful processions, traditional costumes, and captivating music from diverse cultures.",
-        src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop",
-    },
-    {
-        title: "Taste Authentic Cuisines",
-        caption:
-            "Savor dishes from local chefs and global flavors at our curated food stalls and shows.",
-        src: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?q=80&w=2069&auto=format&fit=crop",
-    },
-];
-
-let heroIndex = 0;
-let heroTimerId = null;
-
-function mountHeroSlides() {
-    const container = document.getElementById("hero-slider");
-    if (!container) return;
-
-    container.innerHTML = "";
-    heroSlides.forEach((slide, i) => {
-        const el = document.createElement("div");
-        el.className =
-            "absolute inset-0 opacity-0 transition-opacity duration-[1200ms] ease-out will-change-opacity";
-        el.style.backgroundImage = `url(${slide.src})`;
-        el.style.backgroundSize = "cover";
-        el.style.backgroundPosition = "center";
-        el.setAttribute("data-idx", String(i));
-        container.appendChild(el);
-    });
-
-    // Dots
-    const dots = document.getElementById("hero-dots");
-    if (dots) {
-        dots.innerHTML = "";
-        heroSlides.forEach((_, i) => {
-            const dot = document.createElement("button");
-            dot.className =
-                "h-2.5 w-2.5 rounded-full bg-white/50 hover:bg-white/80 transition-colors";
-            dot.addEventListener("click", () => showHeroSlide(i, true));
-            dots.appendChild(dot);
-        });
-    }
-
-    showHeroSlide(0, false);
-    startHeroTimer();
-}
-
-function showHeroSlide(index, userTriggered) {
-    const container = document.getElementById("hero-slider");
-    if (!container) return;
-
-    const slides = Array.from(container.children);
-    slides.forEach((s) => s.classList.add("opacity-0"));
-    const active = slides[index];
-    if (active) active.classList.remove("opacity-0");
-
-    // Update copy
-    const titleEl = document.getElementById("hero-title");
-    const captionEl = document.getElementById("hero-caption");
-    if (titleEl && captionEl) {
-        titleEl.textContent = heroSlides[index].title;
-        captionEl.textContent = heroSlides[index].caption;
-    }
-
-    // Update dots
-    const dots = document.getElementById("hero-dots");
-    if (dots) {
-        Array.from(dots.children).forEach((d, i) => {
-            d.classList.toggle("bg-white", i === index);
-            d.classList.toggle("bg-white/50", i !== index);
-            d.classList.toggle("h-3", i === index);
-            d.classList.toggle("w-3", i === index);
-        });
-    }
-
-    heroIndex = index;
-    if (userTriggered) startHeroTimer();
-}
-
-function startHeroTimer() {
-    if (heroTimerId) clearInterval(heroTimerId);
-    heroTimerId = setInterval(() => {
-        const next = (heroIndex + 1) % heroSlides.length;
-        showHeroSlide(next, false);
-    }, 5000);
-}
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountHeroSlides);
-} else {
-    mountHeroSlides();
 }
 
 // ==============================

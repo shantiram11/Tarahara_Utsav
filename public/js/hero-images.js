@@ -1,7 +1,4 @@
 (function () {
-    const TARGET_W = 940;
-    const TARGET_H = 1328;
-
     const form = document.getElementById("heroForm");
     if (!form) return; // Not on a hero form page
 
@@ -12,14 +9,14 @@
         requireImages: (form.dataset.requireImages || "false") === "true",
         heroId: form.dataset.heroId || "",
         successRedirect: form.dataset.successRedirect || "",
+        targetW: Number(form.dataset.targetW || form.dataset.targetw || 940),
+        targetH: Number(form.dataset.targetH || form.dataset.targeth || 1328),
     };
 
     let selectedImages = [];
     let fileQueue = [];
-    let cropper = null;
     let currentFile = null;
     let isProcessing = false;
-    let cropModalInstance = null;
 
     const input = document.getElementById("collageImagesInput");
     if (input && input.addEventListener) {
@@ -70,106 +67,28 @@
         reader.onload = function (ev) {
             img.onload = function () {
                 if (
-                    img.naturalWidth === TARGET_W &&
-                    img.naturalHeight === TARGET_H
+                    img.naturalWidth === config.targetW &&
+                    img.naturalHeight === config.targetH
                 ) {
                     addImageToSelection(file);
                     processNextFile();
                 } else {
-                    openCropper(file, img.naturalWidth, img.naturalHeight);
+                    ImageCropper.openCropper(
+                        file,
+                        config.targetW,
+                        config.targetH,
+                        img.naturalWidth,
+                        img.naturalHeight,
+                        function (croppedFile) {
+                            addImageToSelection(croppedFile);
+                            processNextFile();
+                        }
+                    );
                 }
             };
             img.src = ev.target.result;
         };
         reader.readAsDataURL(file);
-    }
-
-    function openCropper(file, originalWidth, originalHeight) {
-        currentFile = file;
-
-        const sizeEl = document.getElementById("originalSize");
-        if (sizeEl)
-            sizeEl.textContent = `${originalWidth} x ${originalHeight} pixels`;
-
-        const modalEl = document.getElementById("cropModal");
-        if (!modalEl) return;
-        cropModalInstance = new bootstrap.Modal(modalEl);
-
-        modalEl.addEventListener(
-            "shown.bs.modal",
-            function onShown() {
-                modalEl.removeEventListener("shown.bs.modal", onShown);
-                initializeCropper(file);
-            },
-            { once: true }
-        );
-
-        modalEl.addEventListener(
-            "hidden.bs.modal",
-            function onHidden() {
-                modalEl.removeEventListener("hidden.bs.modal", onHidden);
-                cleanupCropper();
-                currentFile = null;
-                processNextFile();
-            },
-            { once: true }
-        );
-
-        const cropBtn = document.getElementById("cropButton");
-        if (cropBtn) {
-            cropBtn.onclick = function () {
-                if (!cropper) return;
-                const canvas = cropper.getCroppedCanvas({
-                    width: TARGET_W,
-                    height: TARGET_H,
-                });
-                canvas.toBlob(function (blob) {
-                    const croppedFile = new File([blob], file.name, {
-                        type: file.type,
-                        lastModified: Date.now(),
-                    });
-                    addImageToSelection(croppedFile);
-                    cropModalInstance.hide();
-                }, file.type);
-            };
-        }
-
-        cropModalInstance.show();
-    }
-
-    function initializeCropper(file) {
-        const cropArea = document.getElementById("cropArea");
-        if (!cropArea) return;
-        cropArea.innerHTML = "";
-
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.style.maxWidth = "100%";
-        img.style.maxHeight = "400px";
-        cropArea.appendChild(img);
-
-        cropper = new Cropper(img, {
-            aspectRatio: TARGET_W / TARGET_H,
-            viewMode: 1,
-            dragMode: "move",
-            autoCropArea: 1,
-            restore: false,
-            guides: true,
-            center: true,
-            highlight: false,
-            cropBoxMovable: true,
-            cropBoxResizable: true,
-            toggleDragModeOnDblclick: false,
-        });
-    }
-
-    function cleanupCropper() {
-        if (cropper) {
-            cropper.destroy();
-            cropper = null;
-        }
-        const cropArea = document.getElementById("cropArea");
-        if (cropArea) cropArea.innerHTML = "";
     }
 
     function addImageToSelection(file) {
@@ -203,7 +122,7 @@
                 <div class="image-card-body">
                     <div class="image-card-title">${fileName}</div>
                     <div class="image-card-subtitle">
-                        <i class="ri-check-line me-1"></i>${TARGET_W} × ${TARGET_H}
+                        <i class="ri-check-line me-1"></i>${config.targetW} × ${config.targetH}
                     </div>
                 </div>
             `;
