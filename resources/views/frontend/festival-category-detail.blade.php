@@ -149,14 +149,6 @@
     <div class="mt-16">
       <h2 class="text-2xl font-bold text-slate-900 mb-8">Related Categories</h2>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        @php
-          $relatedCategories = \App\Models\FestivalCategory::active()
-            ->where('id', '!=', $festivalCategory->id)
-            ->ordered()
-            ->limit(3)
-            ->get();
-        @endphp
-
         @foreach($relatedCategories as $category)
         <article class="group rounded-2xl bg-{{ $category->color_scheme }}-50 p-6 ring-1 ring-{{ $category->color_scheme }}-100 transition-shadow hover:shadow-soft">
           <div class="relative mb-4 aspect-[4/3] overflow-hidden rounded-xl">

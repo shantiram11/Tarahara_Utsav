@@ -250,7 +250,14 @@ class FrontendController extends Controller
             abort(404);
         }
 
-        return view('frontend.festival-category-detail', compact('festivalCategory'));
+        // Get related categories (excluding current one)
+        $relatedCategories = FestivalCategory::active()
+            ->where('id', '!=', $festivalCategory->id)
+            ->ordered()
+            ->limit(3)
+            ->get();
+
+        return view('frontend.festival-category-detail', compact('festivalCategory', 'relatedCategories'));
     }
 
     /**
