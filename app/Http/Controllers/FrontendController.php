@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hero;
 use App\Models\About;
+use App\Models\Sponsor;
 use Illuminate\Support\Facades\Storage;
 
 class FrontendController extends Controller
@@ -95,19 +96,108 @@ class FrontendController extends Controller
     }
 
     /**
+     * Get sponsor data for frontend display
+     *
+     * @return array
+     */
+    public function getSponsorData()
+    {
+        try {
+            $sponsors = Sponsor::active()->latest()->get();
+
+            $data = [
+                'tier1' => [],
+                'tier2' => [],
+                'hasSponsors' => false,
+                'fallbackSponsors' => [
+                    'tier1' => [
+                        ['title' => 'Premium Sponsor 1', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Premium Sponsor 2', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Premium Sponsor 3', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Premium Sponsor 4', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ],
+                    'tier2' => [
+                        ['title' => 'Standard Sponsor 1', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 2', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 3', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 4', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 5', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 6', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ]
+                ]
+            ];
+
+            if ($sponsors->isNotEmpty()) {
+                $data['hasSponsors'] = true;
+
+                $data['tier1'] = $sponsors->where('tier', 'tier1')
+                    ->map(function($sponsor) {
+                        return [
+                            'title' => $sponsor->title,
+                            'image' => Storage::url($sponsor->image),
+                            'website_url' => $sponsor->website_url,
+                            'added_date' => $sponsor->created_at->format('M d, Y')
+                        ];
+                    })
+                    ->values()
+                    ->toArray();
+
+                $data['tier2'] = $sponsors->where('tier', 'tier2')
+                    ->map(function($sponsor) {
+                        return [
+                            'title' => $sponsor->title,
+                            'image' => Storage::url($sponsor->image),
+                            'website_url' => $sponsor->website_url,
+                            'added_date' => $sponsor->created_at->format('M d, Y')
+                        ];
+                    })
+                    ->values()
+                    ->toArray();
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            // Log error and return fallback data
+            \Log::error('Error fetching sponsor data: ' . $e->getMessage());
+            return [
+                'tier1' => [],
+                'tier2' => [],
+                'hasSponsors' => false,
+                'fallbackSponsors' => [
+                    'tier1' => [
+                        ['title' => 'Premium Sponsor 1', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Premium Sponsor 2', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Premium Sponsor 3', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Premium Sponsor 4', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ],
+                    'tier2' => [
+                        ['title' => 'Standard Sponsor 1', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 2', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 3', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 4', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 5', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                        ['title' => 'Standard Sponsor 6', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ]
+                ]
+            ];
+        }
+    }
+
+    /**
      * Show the home page
      */
     public function home()
     {
         $heroData = $this->getHeroData();
         $aboutData = $this->getAboutData();
+        $sponsorData = $this->getSponsorData();
 
         // we can add caching here for better performance
         // $heroData = Cache::remember('hero_data', 300, function () {
         //     return $this->getHeroData();
         // });
 
-        return view('frontend.index', compact('heroData', 'aboutData'));
+        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData'));
     }
 
     /**

@@ -30,6 +30,14 @@
       </a>
     </li>
 
+    <!-- Sponsors -->
+    <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('admin.sponsors.*') ? 'active' : '' }}" href="{{ route('admin.sponsors.index') }}">
+        <i class="nav-icon ri-hand-coin-line"></i>
+        <span>Manage Sponsors</span>
+      </a>
+    </li>
+
     <li class="nav-group">
       <a class="nav-link nav-group-toggle" href="#">
         <i class="nav-icon ri-team-line"></i>

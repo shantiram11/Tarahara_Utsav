@@ -66,4 +66,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/about/update', [AboutController::class, 'update'])->name('about.update');
     Route::delete('/about/images/{index}', [AboutController::class, 'removeImage'])->name('about.images.remove');
     Route::delete('/about', [AboutController::class, 'destroy'])->name('about.destroy');
+
+    // Sponsors CRUD
+    Route::resource('sponsors', \App\Http\Controllers\Admin\SponsorController::class);
+    Route::post('/sponsors/{sponsor}/toggle-status', [\App\Http\Controllers\Admin\SponsorController::class, 'toggleStatus'])->name('sponsors.toggle-status');
 });

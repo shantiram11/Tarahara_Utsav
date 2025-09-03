@@ -97,6 +97,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.1/dist/js/coreui.bundle.min.js" crossorigin="anonymous"></script>
   <!-- DataTables JS -->
   <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <!-- Custom JS -->
+  <script src="{{ asset('js/sponsor-form.js') }}"></script>
   @stack('scripts')
 </body>
 </html>
