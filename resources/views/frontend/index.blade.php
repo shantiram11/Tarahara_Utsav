@@ -8,7 +8,7 @@
 
     @include('frontend.sections.connect')
 
-    @include('frontend.sections.festival-category')
+    @include('frontend.sections.festival-category', ['festivalCategoriesData' => $festivalCategoriesData])
     @include('frontend.sections.media')
 
     @include('frontend.sections.events-highlights')

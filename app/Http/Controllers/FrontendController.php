@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hero;
 use App\Models\About;
 use App\Models\Sponsor;
+use App\Models\FestivalCategory;
 use Illuminate\Support\Facades\Storage;
 
 class FrontendController extends Controller
@@ -191,13 +192,65 @@ class FrontendController extends Controller
         $heroData = $this->getHeroData();
         $aboutData = $this->getAboutData();
         $sponsorData = $this->getSponsorData();
+        $festivalCategoriesData = $this->getFestivalCategoriesData();
 
         // we can add caching here for better performance
         // $heroData = Cache::remember('hero_data', 300, function () {
         //     return $this->getHeroData();
         // });
 
-        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData'));
+        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData', 'festivalCategoriesData'));
+    }
+
+    /**
+     * Get festival categories data for frontend display
+     *
+     * @return array
+     */
+    public function getFestivalCategoriesData()
+    {
+        try {
+            $categories = FestivalCategory::active()->ordered()->get();
+
+            $data = [
+                'hasCategories' => $categories->isNotEmpty(),
+                'categories' => []
+            ];
+
+            if ($categories->isNotEmpty()) {
+                $data['categories'] = $categories->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'title' => $category->title,
+                        'description' => $category->description,
+                        'image' => Storage::url($category->image),
+                        'slug' => $category->slug,
+                        'color_scheme' => $category->color_scheme,
+                        'has_content' => !empty($category->content)
+                    ];
+                })->toArray();
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            \Log::error('Error fetching festival categories data: ' . $e->getMessage());
+            return [
+                'hasCategories' => false,
+                'categories' => []
+            ];
+        }
+    }
+
+    /**
+     * Show festival category detail page
+     */
+    public function showFestivalCategory(FestivalCategory $festivalCategory)
+    {
+        if (!$festivalCategory->is_active) {
+            abort(404);
+        }
+
+        return view('frontend.festival-category-detail', compact('festivalCategory'));
     }
 
     /**

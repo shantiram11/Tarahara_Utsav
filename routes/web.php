@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\FestivalCategoryController;
 use App\Http\Controllers\FrontendController;
 
 $productionFrontPage = app()->environment("production") ? '/utsav' : '/';
@@ -68,6 +69,25 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/about', [AboutController::class, 'destroy'])->name('about.destroy');
 
     // Sponsors CRUD
-    Route::resource('sponsors', \App\Http\Controllers\Admin\SponsorController::class);
+    Route::get('/sponsors', [\App\Http\Controllers\Admin\SponsorController::class, 'index'])->name('sponsors.index');
+    Route::get('/sponsors/create', [\App\Http\Controllers\Admin\SponsorController::class, 'create'])->name('sponsors.create');
+    Route::post('/sponsors', [\App\Http\Controllers\Admin\SponsorController::class, 'store'])->name('sponsors.store');
+    Route::get('/sponsors/{sponsor}', [\App\Http\Controllers\Admin\SponsorController::class, 'show'])->name('sponsors.show');
+    Route::get('/sponsors/{sponsor}/edit', [\App\Http\Controllers\Admin\SponsorController::class, 'edit'])->name('sponsors.edit');
+    Route::put('/sponsors/{sponsor}', [\App\Http\Controllers\Admin\SponsorController::class, 'update'])->name('sponsors.update');
+    Route::delete('/sponsors/{sponsor}', [\App\Http\Controllers\Admin\SponsorController::class, 'destroy'])->name('sponsors.destroy');
     Route::post('/sponsors/{sponsor}/toggle-status', [\App\Http\Controllers\Admin\SponsorController::class, 'toggleStatus'])->name('sponsors.toggle-status');
+
+    // Festival Categories CRUD
+    Route::get('/festival-categories', [FestivalCategoryController::class, 'index'])->name('festival-categories.index');
+    Route::get('/festival-categories/create', [FestivalCategoryController::class, 'create'])->name('festival-categories.create');
+    Route::post('/festival-categories', [FestivalCategoryController::class, 'store'])->name('festival-categories.store');
+    Route::get('/festival-categories/{festivalCategory}', [FestivalCategoryController::class, 'show'])->name('festival-categories.show');
+    Route::get('/festival-categories/{festivalCategory}/edit', [FestivalCategoryController::class, 'edit'])->name('festival-categories.edit');
+    Route::put('/festival-categories/{festivalCategory}', [FestivalCategoryController::class, 'update'])->name('festival-categories.update');
+    Route::delete('/festival-categories/{festivalCategory}', [FestivalCategoryController::class, 'destroy'])->name('festival-categories.destroy');
+    Route::post('/festival-categories/{festivalCategory}/toggle-status', [FestivalCategoryController::class, 'toggleStatus'])->name('festival-categories.toggle-status');
 });
+
+// Frontend Festival Category Routes
+Route::get('/festival-categories/{festivalCategory:slug}', [FrontendController::class, 'showFestivalCategory'])->name('festival-categories.show');
