@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            AboutSeeder::class,
+            SponsorSeeder::class,
             FestivalCategorySeeder::class,
         ]);
     }
