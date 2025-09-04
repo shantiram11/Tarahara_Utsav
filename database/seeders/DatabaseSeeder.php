@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             AboutSeeder::class,
             SponsorSeeder::class,
             FestivalCategorySeeder::class,
+            MediaSeeder::class,
         ]);
     }
 }

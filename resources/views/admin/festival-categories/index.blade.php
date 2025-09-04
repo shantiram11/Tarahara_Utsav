@@ -10,6 +10,43 @@
     <h5 class="mb-0">Festival Categories</h5>
     <a href="{{ route('admin.festival-categories.create') }}" class="btn btn-sm btn-success">Create Category</a>
   </div>
+
+  <!-- Search Bar -->
+  <div class="card-body border-bottom">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" id="searchInput" placeholder="Search categories by title..." value="{{ request('search') }}">
+          <button class="btn btn-outline-secondary" type="button" onclick="searchCategories()">
+            <i class="ri-search-line"></i>
+          </button>
+          @if(request('search'))
+            <button class="btn btn-outline-danger" type="button" onclick="clearSearch()">
+              <i class="ri-close-line"></i>
+            </button>
+          @endif
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex gap-2">
+          <select class="form-select" id="statusFilter" onchange="filterByStatus()">
+            <option value="">All Status</option>
+            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+            <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+          </select>
+          <select class="form-select" id="colorFilter" onchange="filterByColor()">
+            <option value="">All Colors</option>
+            <option value="blue" {{ request('color') == 'blue' ? 'selected' : '' }}>Blue</option>
+            <option value="green" {{ request('color') == 'green' ? 'selected' : '' }}>Green</option>
+            <option value="red" {{ request('color') == 'red' ? 'selected' : '' }}>Red</option>
+            <option value="purple" {{ request('color') == 'purple' ? 'selected' : '' }}>Purple</option>
+            <option value="orange" {{ request('color') == 'orange' ? 'selected' : '' }}>Orange</option>
+            <option value="pink" {{ request('color') == 'pink' ? 'selected' : '' }}>Pink</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="card-body">
     <div class="table-responsive">
       <table id="categories-table" class="table table-striped table-hover w-100">
@@ -118,6 +155,61 @@ function toggleStatus(categoryId) {
         alert('An error occurred while updating category status');
     });
 }
+
+// Search and Filter Functions
+function searchCategories() {
+    const searchTerm = document.getElementById('searchInput').value;
+    const url = new URL(window.location);
+
+    if (searchTerm.trim()) {
+        url.searchParams.set('search', searchTerm);
+    } else {
+        url.searchParams.delete('search');
+    }
+
+    window.location.href = url.toString();
+}
+
+function clearSearch() {
+    const url = new URL(window.location);
+    url.searchParams.delete('search');
+    url.searchParams.delete('status');
+    url.searchParams.delete('color');
+    window.location.href = url.toString();
+}
+
+function filterByStatus() {
+    const status = document.getElementById('statusFilter').value;
+    const url = new URL(window.location);
+
+    if (status) {
+        url.searchParams.set('status', status);
+    } else {
+        url.searchParams.delete('status');
+    }
+
+    window.location.href = url.toString();
+}
+
+function filterByColor() {
+    const color = document.getElementById('colorFilter').value;
+    const url = new URL(window.location);
+
+    if (color) {
+        url.searchParams.set('color', color);
+    } else {
+        url.searchParams.delete('color');
+    }
+
+    window.location.href = url.toString();
+}
+
+// Allow Enter key to trigger search
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        searchCategories();
+    }
+});
 
 function deleteCategory(categoryId) {
     categoryToDelete = categoryId;

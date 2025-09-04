@@ -21,9 +21,27 @@ class FestivalCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = FestivalCategory::ordered()->get();
+        $query = FestivalCategory::query();
+
+        // Search by title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $isActive = $request->status === 'active';
+            $query->where('is_active', $isActive);
+        }
+
+        // Filter by color scheme
+        if ($request->filled('color')) {
+            $query->where('color_scheme', $request->color);
+        }
+
+        $categories = $query->ordered()->get();
         return view('admin.festival-categories.index', compact('categories'));
     }
 

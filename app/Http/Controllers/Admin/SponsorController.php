@@ -28,9 +28,27 @@ class SponsorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sponsors = Sponsor::latest()->get();
+        $query = Sponsor::query();
+
+        // Search by title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by tier
+        if ($request->filled('tier')) {
+            $query->where('tier', $request->tier);
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $isActive = $request->status === 'active';
+            $query->where('is_active', $isActive);
+        }
+
+        $sponsors = $query->latest()->get();
         return view('admin.sponsors.index', compact('sponsors'));
     }
 

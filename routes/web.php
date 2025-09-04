@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\FestivalCategoryController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\Admin\MediaController;
 
 $productionFrontPage = app()->environment("production") ? '/utsav' : '/';
 
@@ -77,6 +78,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/sponsors/{sponsor}', [\App\Http\Controllers\Admin\SponsorController::class, 'update'])->name('sponsors.update');
     Route::delete('/sponsors/{sponsor}', [\App\Http\Controllers\Admin\SponsorController::class, 'destroy'])->name('sponsors.destroy');
     Route::post('/sponsors/{sponsor}/toggle-status', [\App\Http\Controllers\Admin\SponsorController::class, 'toggleStatus'])->name('sponsors.toggle-status');
+
+    // Media CRUD
+    Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+    Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
+    Route::post('/media', [MediaController::class, 'store'])->name('media.store');
+    Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->name('media.edit');
+    Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+    Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
+    Route::post('/media/{media}/toggle-status', [MediaController::class, 'toggleStatus'])->name('media.toggle-status');
 
     // Festival Categories CRUD
     Route::get('/festival-categories', [FestivalCategoryController::class, 'index'])->name('festival-categories.index');

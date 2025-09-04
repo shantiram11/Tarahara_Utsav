@@ -26,92 +26,30 @@
               style="--marquee-duration: 26s"
               class="media-track flex items-center gap-16 px-12"
             >
-              <!-- repeat set twice for seamless loop -->
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="BBC"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="The Guardian"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="Al Jazeera"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="CNN"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="Reuters"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="NYTimes"
-                />
-              </li>
-
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="BBC"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="The Guardian"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="Al Jazeera"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="CNN"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="Reuters"
-                />
-              </li>
-              <li class="shrink-0">
-                <img
-                  class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
-                  src="{{ asset('assets/Logo.png') }}"
-                  alt="NYTimes"
-                />
-              </li>
+              <!-- Dynamic and fallback items -->
+              @php
+                $items = isset($mediaData) && $mediaData['hasMedia'] ? $mediaData['items'] : ($mediaData['fallbackItems'] ?? []);
+                $loopItems = array_merge($items, $items);
+              @endphp
+              @foreach($loopItems as $item)
+                <li class="shrink-0">
+                  @if(!empty($item['website_url']))
+                    <a href="{{ $item['website_url'] }}" target="_blank" rel="noopener">
+                      <img
+                        class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
+                        src="{{ $item['image'] }}"
+                        alt="{{ $item['title'] }}"
+                      />
+                    </a>
+                  @else
+                    <img
+                      class="h-8 sm:h-12 md:h-16 lg:h-[68px] opacity-90"
+                      src="{{ $item['image'] }}"
+                      alt="{{ $item['title'] }}"
+                    />
+                  @endif
+                </li>
+              @endforeach
             </ul>
           </div>
         </div>

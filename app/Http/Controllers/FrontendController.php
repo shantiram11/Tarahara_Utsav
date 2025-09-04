@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hero;
 use App\Models\About;
 use App\Models\Sponsor;
+use App\Models\Media;
 use App\Models\FestivalCategory;
 use Illuminate\Support\Facades\Storage;
 
@@ -185,6 +186,57 @@ class FrontendController extends Controller
     }
 
     /**
+     * Get media coverage data for frontend display
+     *
+     * @return array
+     */
+    public function getMediaData()
+    {
+        try {
+            $items = Media::active()->ordered()->get();
+
+            $data = [
+                'hasMedia' => $items->isNotEmpty(),
+                'items' => [],
+                'fallbackItems' => [
+                    ['title' => 'Media 1', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 2', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 3', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 4', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 5', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 6', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                ],
+            ];
+
+            if ($items->isNotEmpty()) {
+                $data['items'] = $items->map(function ($item) {
+                    return [
+                        'title' => $item->title,
+                        'image' => Storage::url($item->image),
+                        'website_url' => $item->website_url,
+                    ];
+                })->toArray();
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            \Log::error('Error fetching media data: ' . $e->getMessage());
+            return [
+                'hasMedia' => false,
+                'items' => [],
+                'fallbackItems' => [
+                    ['title' => 'Media 1', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 2', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 3', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 4', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 5', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                    ['title' => 'Media 6', 'image' => asset('assets/Logo.png'), 'website_url' => null],
+                ],
+            ];
+        }
+    }
+
+    /**
      * Show the home page
      */
     public function home()
@@ -192,6 +244,7 @@ class FrontendController extends Controller
         $heroData = $this->getHeroData();
         $aboutData = $this->getAboutData();
         $sponsorData = $this->getSponsorData();
+        $mediaData = $this->getMediaData();
         $festivalCategoriesData = $this->getFestivalCategoriesData();
 
         // we can add caching here for better performance
@@ -199,7 +252,7 @@ class FrontendController extends Controller
         //     return $this->getHeroData();
         // });
 
-        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData', 'festivalCategoriesData'));
+        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData', 'mediaData', 'festivalCategoriesData'));
     }
 
     /**

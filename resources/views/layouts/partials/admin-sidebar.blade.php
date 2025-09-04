@@ -38,6 +38,14 @@
       </a>
     </li>
 
+    <!-- Media -->
+    <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('admin.media.*') ? 'active' : '' }}" href="{{ route('admin.media.index') }}">
+        <i class="nav-icon ri-newspaper-line"></i>
+        <span>Manage Media</span>
+      </a>
+    </li>
+
     <!-- Festival Categories -->
     <li class="nav-item">
       <a class="nav-link {{ request()->routeIs('admin.festival-categories.*') ? 'active' : '' }}" href="{{ route('admin.festival-categories.index') }}">

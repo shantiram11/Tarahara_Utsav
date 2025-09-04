@@ -10,6 +10,37 @@
     </a>
 </div>
 
+<!-- Search Bar -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search sponsors by title..." value="{{ request('search') }}">
+            <button class="btn btn-outline-secondary" type="button" onclick="searchSponsors()">
+                <i class="ri-search-line"></i>
+            </button>
+            @if(request('search'))
+                <button class="btn btn-outline-danger" type="button" onclick="clearSearch()">
+                    <i class="ri-close-line"></i>
+                </button>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="d-flex gap-2">
+            <select class="form-select" id="tierFilter" onchange="filterByTier()">
+                <option value="">All Tiers</option>
+                <option value="tier1" {{ request('tier') == 'tier1' ? 'selected' : '' }}>Tier 1 - Premium</option>
+                <option value="tier2" {{ request('tier') == 'tier2' ? 'selected' : '' }}>Tier 2 - Standard</option>
+            </select>
+            <select class="form-select" id="statusFilter" onchange="filterByStatus()">
+                <option value="">All Status</option>
+                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+            </select>
+        </div>
+    </div>
+</div>
+
 <!-- Success/Error Messages -->
 <div id="alert-container"></div>
 
@@ -415,6 +446,61 @@ function showAlert(type, message) {
         }
     }, 5000);
 }
+
+// Search and Filter Functions
+function searchSponsors() {
+    const searchTerm = document.getElementById('searchInput').value;
+    const url = new URL(window.location);
+
+    if (searchTerm.trim()) {
+        url.searchParams.set('search', searchTerm);
+    } else {
+        url.searchParams.delete('search');
+    }
+
+    window.location.href = url.toString();
+}
+
+function clearSearch() {
+    const url = new URL(window.location);
+    url.searchParams.delete('search');
+    url.searchParams.delete('tier');
+    url.searchParams.delete('status');
+    window.location.href = url.toString();
+}
+
+function filterByTier() {
+    const tier = document.getElementById('tierFilter').value;
+    const url = new URL(window.location);
+
+    if (tier) {
+        url.searchParams.set('tier', tier);
+    } else {
+        url.searchParams.delete('tier');
+    }
+
+    window.location.href = url.toString();
+}
+
+function filterByStatus() {
+    const status = document.getElementById('statusFilter').value;
+    const url = new URL(window.location);
+
+    if (status) {
+        url.searchParams.set('status', status);
+    } else {
+        url.searchParams.delete('status');
+    }
+
+    window.location.href = url.toString();
+}
+
+// Allow Enter key to trigger search
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        searchSponsors();
+    }
+});
 
 // Apply resolution badges
 function applyResolutionBadges() {
