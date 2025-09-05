@@ -6,6 +6,8 @@ use App\Models\Hero;
 use App\Models\About;
 use App\Models\Sponsor;
 use App\Models\Media;
+use App\Models\EventHighlight;
+use App\Models\Advertisement;
 use App\Models\FestivalCategory;
 use Illuminate\Support\Facades\Storage;
 
@@ -237,6 +239,132 @@ class FrontendController extends Controller
     }
 
     /**
+     * Get event highlights data for frontend display
+     *
+     * @return array
+     */
+    public function getEventHighlightsData()
+    {
+        try {
+            $highlights = EventHighlight::active()->ordered()->get();
+
+            $data = [
+                'hasHighlights' => $highlights->isNotEmpty(),
+                'highlights' => [],
+                'fallbackHighlights' => [
+                    [
+                        'title' => 'Grand Opening Ceremony',
+                        'description' => 'Spectacular inaugural event featuring cultural performances and community leaders.',
+                        'date' => 'December 15, 2025',
+                        'icon' => '⭐',
+                        'color_scheme' => 'amber'
+                    ],
+                    [
+                        'title' => 'Cultural Parade',
+                        'description' => 'Vibrant procession showcasing traditional costumes, music, and dance from all cultures.',
+                        'date' => 'December 16, 2025',
+                        'icon' => '🚩',
+                        'color_scheme' => 'emerald'
+                    ],
+                    [
+                        'title' => 'Master Chef Competitions',
+                        'description' => 'Culinary showdown featuring the best chefs competing in traditional cooking challenges.',
+                        'date' => 'December 17, 2025',
+                        'icon' => '👨‍🍳',
+                        'color_scheme' => 'rose'
+                    ],
+                ],
+            ];
+
+            if ($highlights->isNotEmpty()) {
+                $data['highlights'] = $highlights->map(function ($highlight) {
+                    return [
+                        'title' => $highlight->title,
+                        'description' => $highlight->description,
+                        'date' => $highlight->date,
+                        'icon' => $highlight->icon,
+                        'color_scheme' => $highlight->color_scheme,
+                    ];
+                })->toArray();
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            \Log::error('Error fetching event highlights data: ' . $e->getMessage());
+            return [
+                'hasHighlights' => false,
+                'highlights' => [],
+                'fallbackHighlights' => [
+                    [
+                        'title' => 'Grand Opening Ceremony',
+                        'description' => 'Spectacular inaugural event featuring cultural performances and community leaders.',
+                        'date' => 'December 15, 2025',
+                        'icon' => '⭐',
+                        'color_scheme' => 'amber'
+                    ],
+                    [
+                        'title' => 'Cultural Parade',
+                        'description' => 'Vibrant procession showcasing traditional costumes, music, and dance from all cultures.',
+                        'date' => 'December 16, 2025',
+                        'icon' => '🚩',
+                        'color_scheme' => 'emerald'
+                    ],
+                    [
+                        'title' => 'Master Chef Competitions',
+                        'description' => 'Culinary showdown featuring the best chefs competing in traditional cooking challenges.',
+                        'date' => 'December 17, 2025',
+                        'icon' => '👨‍🍳',
+                        'color_scheme' => 'rose'
+                    ],
+                ],
+            ];
+        }
+    }
+
+    /**
+     * Get advertisements data for frontend display
+     *
+     * @return array
+     */
+    public function getAdvertisementsData()
+    {
+        try {
+            $advertisements = Advertisement::currentlyActive()->ordered()->get();
+
+            $data = [
+                'top' => [],
+                'bottom' => [],
+                'sidebar' => [],
+            ];
+
+            if ($advertisements->isNotEmpty()) {
+                $grouped = $advertisements->groupBy('position');
+
+                foreach (['top', 'bottom', 'sidebar'] as $position) {
+                    $data[$position] = $grouped->get($position, collect())->map(function ($ad) {
+                        return [
+                            'id' => $ad->id,
+                            'title' => $ad->title,
+                            'image' => Storage::url($ad->image),
+                            'link_url' => $ad->link_url,
+                            'position' => $ad->position,
+                        ];
+                    })->toArray();
+                }
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            \Log::error('Error fetching advertisements data: ' . $e->getMessage());
+            return [
+                'top' => [],
+                'bottom' => [],
+                'sidebar' => [],
+            ];
+        }
+    }
+
+    /**
      * Show the home page
      */
     public function home()
@@ -245,6 +373,8 @@ class FrontendController extends Controller
         $aboutData = $this->getAboutData();
         $sponsorData = $this->getSponsorData();
         $mediaData = $this->getMediaData();
+        $eventHighlightsData = $this->getEventHighlightsData();
+        $advertisementsData = $this->getAdvertisementsData();
         $festivalCategoriesData = $this->getFestivalCategoriesData();
 
         // we can add caching here for better performance
@@ -252,7 +382,7 @@ class FrontendController extends Controller
         //     return $this->getHeroData();
         // });
 
-        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData', 'mediaData', 'festivalCategoriesData'));
+        return view('frontend.index', compact('heroData', 'aboutData', 'sponsorData', 'mediaData', 'eventHighlightsData', 'advertisementsData', 'festivalCategoriesData'));
     }
 
     /**
@@ -310,7 +440,10 @@ class FrontendController extends Controller
             ->limit(3)
             ->get();
 
-        return view('frontend.festival-category-detail', compact('festivalCategory', 'relatedCategories'));
+        // Get advertisement data
+        $advertisementsData = $this->getAdvertisementsData();
+
+        return view('frontend.festival-category-detail', compact('festivalCategory', 'relatedCategories', 'advertisementsData'));
     }
 
     /**

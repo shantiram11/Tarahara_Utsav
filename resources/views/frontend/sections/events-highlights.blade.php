@@ -6,56 +6,27 @@
       Event Highlights
     </h2>
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- Highlight 1 -->
-      <article
-        class="rounded-2xl bg-white p-6 ring-1 ring-slate-200 hover:shadow-soft transition-shadow"
-      >
-        <div
-          class="mb-4 grid h-10 w-10 place-content-center rounded-full bg-amber-100 text-xl"
-        >
-          ⭐
-        </div>
-        <h3 class="font-semibold">Grand Opening Ceremony</h3>
-        <p class="mt-1 text-xs text-amber-600">December 15, 2025</p>
-        <p class="mt-2 text-sm text-slate-600">
-          Spectacular inaugural event featuring cultural performances and
-          community leaders.
-        </p>
-      </article>
+      @php
+        $highlights = isset($eventHighlightsData) && $eventHighlightsData['hasHighlights'] ? $eventHighlightsData['highlights'] : ($eventHighlightsData['fallbackHighlights'] ?? []);
+      @endphp
 
-      <!-- Highlight 2 -->
-      <article
-        class="rounded-2xl bg-white p-6 ring-1 ring-slate-200 hover:shadow-soft transition-shadow"
-      >
-        <div
-          class="mb-4 grid h-10 w-10 place-content-center rounded-full bg-emerald-100 text-xl"
+      @foreach($highlights as $highlight)
+        <article
+          class="rounded-2xl bg-white p-6 ring-1 ring-slate-200 hover:shadow-soft transition-shadow"
         >
-          🚩
-        </div>
-        <h3 class="font-semibold">Cultural Parade</h3>
-        <p class="mt-1 text-xs text-amber-600">December 16, 2025</p>
-        <p class="mt-2 text-sm text-slate-600">
-          Vibrant procession showcasing traditional costumes, music, and
-          dance from all cultures.
-        </p>
-      </article>
-
-      <!-- Highlight 3 -->
-      <article
-        class="rounded-2xl bg-white p-6 ring-1 ring-slate-200 hover:shadow-soft transition-shadow"
-      >
-        <div
-          class="mb-4 grid h-10 w-10 place-content-center rounded-full bg-rose-100 text-xl"
-        >
-          👨‍🍳
-        </div>
-        <h3 class="font-semibold">Master Chef Competitions</h3>
-        <p class="mt-1 text-xs text-amber-600">December 17, 2025</p>
-        <p class="mt-2 text-sm text-slate-600">
-          Culinary showdown featuring the best chefs competing in
-          traditional cooking challenges.
-        </p>
-      </article>
+          <div
+            class="mb-4 grid h-10 w-10 place-content-center rounded-full text-xl"
+            style="background-color: {{ $highlight['color_scheme'] === 'amber' ? '#fef3c7' : ($highlight['color_scheme'] === 'emerald' ? '#d1fae5' : ($highlight['color_scheme'] === 'rose' ? '#fce7f3' : ($highlight['color_scheme'] === 'blue' ? '#dbeafe' : ($highlight['color_scheme'] === 'green' ? '#dcfce7' : ($highlight['color_scheme'] === 'red' ? '#fee2e2' : ($highlight['color_scheme'] === 'purple' ? '#e9d5ff' : ($highlight['color_scheme'] === 'orange' ? '#fed7aa' : '#fce7f3'))))))) }};"
+          >
+            {{ $highlight['icon'] }}
+          </div>
+          <h3 class="font-semibold">{{ $highlight['title'] }}</h3>
+          <p class="mt-1 text-xs text-amber-600">{{ $highlight['date'] }}</p>
+          <p class="mt-2 text-sm text-slate-600">
+            {{ $highlight['description'] }}
+          </p>
+        </article>
+      @endforeach
     </div>
   </div>
 </section>

@@ -46,6 +46,22 @@
       </a>
     </li>
 
+    <!-- Event Highlights -->
+    <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('admin.event-highlights.*') ? 'active' : '' }}" href="{{ route('admin.event-highlights.index') }}">
+        <i class="nav-icon ri-calendar-event-line"></i>
+        <span>Event Highlights</span>
+      </a>
+    </li>
+
+    <!-- Advertisements -->
+    <li class="nav-item">
+      <a class="nav-link {{ request()->routeIs('admin.advertisements.*') ? 'active' : '' }}" href="{{ route('admin.advertisements.index') }}">
+        <i class="nav-icon ri-advertisement-line"></i>
+        <span>Advertisements</span>
+      </a>
+    </li>
+
     <!-- Festival Categories -->
     <li class="nav-item">
       <a class="nav-link {{ request()->routeIs('admin.festival-categories.*') ? 'active' : '' }}" href="{{ route('admin.festival-categories.index') }}">

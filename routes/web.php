@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\FestivalCategoryController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\EventHighlightController;
+use App\Http\Controllers\Admin\AdvertisementController;
 
 $productionFrontPage = app()->environment("production") ? '/utsav' : '/';
 
@@ -87,6 +89,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
     Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
     Route::post('/media/{media}/toggle-status', [MediaController::class, 'toggleStatus'])->name('media.toggle-status');
+
+    // Event Highlights CRUD
+    Route::get('/event-highlights', [EventHighlightController::class, 'index'])->name('event-highlights.index');
+    Route::get('/event-highlights/create', [EventHighlightController::class, 'create'])->name('event-highlights.create');
+    Route::post('/event-highlights', [EventHighlightController::class, 'store'])->name('event-highlights.store');
+    Route::get('/event-highlights/{eventHighlight}/edit', [EventHighlightController::class, 'edit'])->name('event-highlights.edit');
+    Route::put('/event-highlights/{eventHighlight}', [EventHighlightController::class, 'update'])->name('event-highlights.update');
+    Route::delete('/event-highlights/{eventHighlight}', [EventHighlightController::class, 'destroy'])->name('event-highlights.destroy');
+    Route::post('/event-highlights/{eventHighlight}/toggle-status', [EventHighlightController::class, 'toggleStatus'])->name('event-highlights.toggle-status');
+
+    // Advertisements CRUD
+    Route::get('/advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+    Route::get('/advertisements/create', [AdvertisementController::class, 'create'])->name('advertisements.create');
+    Route::post('/advertisements', [AdvertisementController::class, 'store'])->name('advertisements.store');
+    Route::get('/advertisements/{advertisement}/edit', [AdvertisementController::class, 'edit'])->name('advertisements.edit');
+    Route::put('/advertisements/{advertisement}', [AdvertisementController::class, 'update'])->name('advertisements.update');
+    Route::delete('/advertisements/{advertisement}', [AdvertisementController::class, 'destroy'])->name('advertisements.destroy');
+    Route::post('/advertisements/{advertisement}/toggle-status', [AdvertisementController::class, 'toggleStatus'])->name('advertisements.toggle-status');
 
     // Festival Categories CRUD
     Route::get('/festival-categories', [FestivalCategoryController::class, 'index'])->name('festival-categories.index');

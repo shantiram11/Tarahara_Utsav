@@ -80,6 +80,36 @@
       <!-- Sidebar -->
       <aside class="lg:col-span-4">
         <div class="sticky top-28 space-y-6">
+          <!-- Advertisement Section -->
+          @if(isset($advertisementsData) && !empty($advertisementsData['sidebar']))
+            <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
+              <h3 class="text-sm font-semibold text-slate-900 mb-4">Advertisement</h3>
+              <div class="space-y-4">
+                @foreach($advertisementsData['sidebar'] as $advertisement)
+                  <div class="advertisement-item">
+                    @if($advertisement['link_url'])
+                      <a href="{{ $advertisement['link_url'] }}" target="_blank" rel="noopener" class="block hover:opacity-90 transition-opacity">
+                        <img
+                          src="{{ $advertisement['image'] }}"
+                          alt="{{ $advertisement['title'] }}"
+                          class="w-full h-auto rounded-lg shadow-sm"
+                          style="max-height: 200px; object-fit: contain; object-position: center;"
+                        >
+                      </a>
+                    @else
+                      <img
+                        src="{{ $advertisement['image'] }}"
+                        alt="{{ $advertisement['title'] }}"
+                        class="w-full h-auto rounded-lg shadow-sm"
+                        style="max-height: 200px; object-fit: contain; object-position: center;"
+                      >
+                    @endif
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          @endif
+
           <!-- Meta Card -->
           <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
             <h3 class="text-sm font-semibold text-slate-900 mb-4">Article Info</h3>
