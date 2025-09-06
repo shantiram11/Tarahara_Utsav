@@ -1,8 +1,23 @@
 @if(isset($advertisementsData) && !empty($advertisementsData['top']))
+    <style>
+        /* Optimize advertisement animations for smooth performance */
+        #advertisements-top-mobile,
+        #advertisements-top-desktop {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        .advertisement-item img {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+        }
+    </style>
+
     <!-- Mobile Advertisement Banner -->
-    <section id="advertisements-top-mobile" class="fixed top-0 left-0 right-0 z-40 bg-white border-b shadow-sm md:hidden">
+    <section id="advertisements-top-mobile" class="fixed top-0 left-0 right-0 z-40 bg-white border-b shadow-sm md:hidden transition-transform duration-300 ease-out will-change-transform">
         <div class="w-full px-2">
-            <div class="py-2">
+            <div class="py-3">
                 @foreach($advertisementsData['top'] as $advertisement)
                     <div class="advertisement-item w-full">
                         @if($advertisement['link_url'])
@@ -11,7 +26,7 @@
                                     src="{{ $advertisement['image'] }}"
                                     alt="{{ $advertisement['title'] }}"
                                     class="w-full h-auto block rounded"
-                                    style="height: 80px; object-fit: cover; object-position: center; width: 100%;"
+                                    style="max-height: 100px; min-height: 60px; object-fit: contain; object-position: center; width: 100%;"
                                 >
                             </a>
                         @else
@@ -19,7 +34,7 @@
                                 src="{{ $advertisement['image'] }}"
                                 alt="{{ $advertisement['title'] }}"
                                 class="w-full h-auto block rounded"
-                                style="height: 80px; object-fit: cover; object-position: center; width: 100%;"
+                                style="max-height: 100px; min-height: 60px; object-fit: contain; object-position: center; width: 100%;"
                             >
                         @endif
                     </div>
@@ -29,7 +44,7 @@
     </section>
 
     <!-- Desktop Advertisement Banner -->
-    <section id="advertisements-top-desktop" class="fixed top-0 left-0 right-0 z-40 bg-white border-b shadow-sm hidden md:block">
+    <section id="advertisements-top-desktop" class="fixed top-0 left-0 right-0 z-40 bg-white border-b shadow-sm hidden md:block transition-transform duration-300 ease-out will-change-transform">
         <div class="w-full px-0">
             <div class="py-1">
                 @foreach($advertisementsData['top'] as $advertisement)
@@ -72,15 +87,30 @@
                 if (adSection && nav) {
                     // Get actual height of advertisement section
                     const adHeight = adSection.offsetHeight;
-                    nav.style.top = adHeight + 'px';
 
-                    // Add padding to body to account for the advertisement
-                    document.body.style.paddingTop = (adHeight + 80) + 'px'; // 80px for nav height
+                    // Set CSS custom properties for consistent positioning
+                    document.documentElement.style.setProperty('--ad-height', adHeight + 'px');
+                    document.documentElement.style.setProperty('--nav-top', isAdVisible ? adHeight + 'px' : '0px');
+                    document.documentElement.style.setProperty('--body-padding', isAdVisible ? (adHeight + 80) + 'px' : '80px');
+
+                    // Apply positioning
+                    nav.style.top = isAdVisible ? adHeight + 'px' : '0px';
+                    document.body.style.paddingTop = isAdVisible ? (adHeight + 80) + 'px' : '80px';
                 }
             }
 
             // Initial layout update
             updateLayout();
+
+            // Ensure proper initial positioning
+            if (adSection && nav) {
+                const adHeight = adSection.offsetHeight;
+                nav.style.position = 'fixed';
+                nav.style.top = adHeight + 'px';
+                nav.style.left = '0';
+                nav.style.right = '0';
+                nav.style.zIndex = '50';
+            }
 
             // Update layout on window resize
             window.addEventListener('resize', function() {
@@ -94,52 +124,58 @@
             });
 
             if (adSection && nav) {
-                // Mobile: No scroll hide functionality (keep banner visible)
-                if (isMobile) {
-                    // Mobile keeps banner visible at all times
-                    return;
-                }
-
-                // Desktop: Hide/show advertisement on scroll
+                // Optimized scroll handler for mobile performance
                 function handleScroll() {
                     const currentScrollY = window.scrollY;
+                    const hideThreshold = isMobile ? 80 : 100;
+                    const showThreshold = isMobile ? 30 : 50;
 
-                    if (currentScrollY > 100 && isAdVisible) {
+                    // Only proceed if scroll position changed significantly
+                    if (Math.abs(currentScrollY - lastScrollY) < 5) return;
+
+                    if (currentScrollY > hideThreshold && isAdVisible) {
                         // Hide advertisement when scrolling down
-                        adSection.style.transform = 'translateY(-100%)';
-                        adSection.style.transition = 'transform 0.3s ease-in-out';
-                        nav.style.top = '0px';
-                        nav.style.transition = 'top 0.3s ease-in-out';
-                        document.body.style.paddingTop = '80px'; // Only nav height
+                        adSection.style.transform = 'translate3d(0, -100%, 0)';
                         isAdVisible = false;
-                    } else if (currentScrollY <= 50 && !isAdVisible) {
+
+                        // Update layout after hiding
+                        requestAnimationFrame(() => {
+                            updateLayout();
+                        });
+
+                    } else if (currentScrollY <= showThreshold && !isAdVisible) {
                         // Show advertisement when scrolling back to top
-                        adSection.style.transform = 'translateY(0)';
-                        adSection.style.transition = 'transform 0.3s ease-in-out';
-                        nav.style.top = adSection.offsetHeight + 'px';
-                        nav.style.transition = 'top 0.3s ease-in-out';
-                        document.body.style.paddingTop = (adSection.offsetHeight + 80) + 'px';
+                        adSection.style.transform = 'translate3d(0, 0, 0)';
                         isAdVisible = true;
+
+                        // Update layout after showing
+                        requestAnimationFrame(() => {
+                            updateLayout();
+                        });
                     }
 
                     lastScrollY = currentScrollY;
                 }
 
-                // Throttle scroll events for better performance
+                // Optimized scroll throttling for smooth performance
                 let ticking = false;
+                let lastScrollTime = 0;
+                const scrollThrottle = isMobile ? 16 : 8; // 60fps for mobile, 120fps for desktop
+
                 function onScroll() {
-                    if (!ticking) {
-                        requestAnimationFrame(handleScroll);
+                    const now = performance.now();
+
+                    if (!ticking && (now - lastScrollTime) >= scrollThrottle) {
+                        requestAnimationFrame(() => {
+                            handleScroll();
+                            ticking = false;
+                            lastScrollTime = now;
+                        });
                         ticking = true;
                     }
                 }
 
-                window.addEventListener('scroll', onScroll);
-
-                // Reset ticking flag
-                window.addEventListener('scroll', function() {
-                    ticking = false;
-                });
+                window.addEventListener('scroll', onScroll, { passive: true });
             }
         });
     </script>

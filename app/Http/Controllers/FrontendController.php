@@ -324,9 +324,10 @@ class FrontendController extends Controller
     /**
      * Get advertisements data for frontend display
      *
+     * @param array $positions Array of positions to include (default: all positions)
      * @return array
      */
-    public function getAdvertisementsData()
+    public function getAdvertisementsData($positions = ['top', 'bottom', 'sidebar'])
     {
         try {
             $advertisements = Advertisement::currentlyActive()->ordered()->get();
@@ -340,16 +341,18 @@ class FrontendController extends Controller
             if ($advertisements->isNotEmpty()) {
                 $grouped = $advertisements->groupBy('position');
 
-                foreach (['top', 'bottom', 'sidebar'] as $position) {
-                    $data[$position] = $grouped->get($position, collect())->map(function ($ad) {
-                        return [
-                            'id' => $ad->id,
-                            'title' => $ad->title,
-                            'image' => Storage::url($ad->image),
-                            'link_url' => $ad->link_url,
-                            'position' => $ad->position,
-                        ];
-                    })->toArray();
+                foreach ($positions as $position) {
+                    if (in_array($position, ['top', 'bottom', 'sidebar'])) {
+                        $data[$position] = $grouped->get($position, collect())->map(function ($ad) {
+                            return [
+                                'id' => $ad->id,
+                                'title' => $ad->title,
+                                'image' => Storage::url($ad->image),
+                                'link_url' => $ad->link_url,
+                                'position' => $ad->position,
+                            ];
+                        })->toArray();
+                    }
                 }
             }
 
@@ -374,7 +377,7 @@ class FrontendController extends Controller
         $sponsorData = $this->getSponsorData();
         $mediaData = $this->getMediaData();
         $eventHighlightsData = $this->getEventHighlightsData();
-        $advertisementsData = $this->getAdvertisementsData();
+        $advertisementsData = $this->getAdvertisementsData(['top', 'bottom']); // Only top and bottom ads for home page
         $festivalCategoriesData = $this->getFestivalCategoriesData();
 
         // we can add caching here for better performance
@@ -441,7 +444,7 @@ class FrontendController extends Controller
             ->get();
 
         // Get advertisement data
-        $advertisementsData = $this->getAdvertisementsData();
+        $advertisementsData = $this->getAdvertisementsData(['bottom', 'sidebar']); // Only bottom and sidebar ads for detail page
 
         return view('frontend.festival-category-detail', compact('festivalCategory', 'relatedCategories', 'advertisementsData'));
     }

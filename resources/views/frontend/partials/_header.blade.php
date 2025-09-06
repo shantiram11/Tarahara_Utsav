@@ -24,22 +24,22 @@
                   </a>
 
                   <!-- Regular Nav Links -->
-                  <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="events-link">
                       <span>Events</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="sponsors-link">
                       <span>Sponsors</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="categories-link">
                       <span>Category</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors">
+                  <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="highlights-link">
                       <span>Highlights</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
@@ -136,6 +136,11 @@
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
+              <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
+                  <span>Sponsors</span>
+                  <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
+              </a>
+
               <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Category</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
@@ -143,11 +148,6 @@
 
               <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
                   <span>Highlights</span>
-                  <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
-              </a>
-
-              <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="group flex items-center justify-between py-4 px-4 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all duration-300 hover:bg-gray-50 hover:pl-6 border-b border-gray-100">
-                  <span>Sponsor</span>
                   <div class="w-1 h-0 group-hover:h-8 bg-gradient-to-b from-gray-400 to-gray-500 rounded-full transition-all duration-300"></div>
               </a>
 
@@ -253,10 +253,138 @@ function toggleMobileMenu() {
 // Make function globally available
 window.toggleMobileMenu = toggleMobileMenu;
 
+// Optimized scroll tracking for navigation active states
+let lastActiveSection = null;
+let scrollTimeout = null;
+let isMobile = window.innerWidth < 768;
+
+function updateActiveNavLink() {
+    const sections = [
+        { id: 'mosaic', navId: 'events-link' },
+        { id: 'sponsors', navId: 'sponsors-link' },
+        { id: 'categories', navId: 'categories-link' },
+        { id: 'highlights', navId: 'highlights-link' }
+    ];
+
+    const scrollPosition = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    let activeSection = null;
+    let bestSection = null;
+    let bestScore = -1;
+
+    // Simplified section detection for better mobile performance
+    sections.forEach(section => {
+        const element = document.getElementById(section.id);
+        if (element) {
+            const rect = element.getBoundingClientRect();
+
+            // Simplified visibility calculation
+            const isInViewport = rect.top < viewportHeight && rect.bottom > 0;
+            const visibilityRatio = isInViewport ?
+                Math.min(1, Math.max(0, (viewportHeight - rect.top) / element.offsetHeight)) : 0;
+
+            // Simple scoring system
+            const totalScore = visibilityRatio + (isInViewport ? 0.5 : 0);
+
+            if (visibilityRatio > 0.2 && totalScore > bestScore) {
+                bestSection = section;
+                bestScore = totalScore;
+            }
+
+            // If section is prominently visible, it's active
+            if (visibilityRatio > 0.4 && rect.top < (viewportHeight * 0.7)) {
+                activeSection = section;
+            }
+        }
+    });
+
+    const currentSection = activeSection || bestSection;
+    const shouldShowHome = scrollPosition < 50 && !currentSection;
+
+    // Only update if section has actually changed
+    if (currentSection && currentSection.id !== lastActiveSection) {
+        lastActiveSection = currentSection.id;
+
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+
+        scrollTimeout = setTimeout(() => {
+            updateNavigationStates(currentSection);
+        }, isMobile ? 50 : 30);
+    } else if (shouldShowHome && lastActiveSection !== 'home') {
+        lastActiveSection = 'home';
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            updateNavigationStates({ id: 'home', navId: 'home-link' });
+        }, isMobile ? 50 : 30);
+    }
+}
+
+function updateNavigationStates(activeSection) {
+    // Update desktop navigation
+    const desktopNavLinks = document.querySelectorAll('.desktop-nav .nav-link');
+    desktopNavLinks.forEach(link => {
+        const isHomeLink = link.id === 'home-link';
+        const isActive = isHomeLink ?
+            (activeSection.id === 'home') :
+            (activeSection && link.id === activeSection.navId);
+
+        if (isActive) {
+            link.classList.remove('text-gray-700', 'hover:text-gray-900');
+            link.classList.add('text-red-600', 'bg-red-50', 'font-semibold');
+            const indicator = link.querySelector('.active-indicator');
+            if (indicator) indicator.style.display = 'block';
+        } else {
+            link.classList.remove('text-red-600', 'bg-red-50', 'font-semibold');
+            link.classList.add('text-gray-700', 'hover:text-gray-900');
+            const indicator = link.querySelector('.active-indicator');
+            if (indicator) indicator.style.display = 'none';
+        }
+    });
+
+    // Update mobile navigation
+    const mobileNavLinks = document.querySelectorAll('#mobile-menu .group');
+    mobileNavLinks.forEach(link => {
+        const href = link.getAttribute('href') || '';
+        const isHomeLink = href === '{{ route("home") }}';
+        const isActive = isHomeLink ?
+            (activeSection.id === 'home') :
+            (activeSection && href.includes('#' + activeSection.id));
+
+        if (isActive) {
+            link.classList.remove('text-gray-600', 'hover:text-gray-900', 'font-medium');
+            link.classList.add('text-red-600', 'bg-red-50', 'font-semibold');
+            const indicator = link.querySelector('.w-1');
+            if (indicator) {
+                indicator.classList.remove('h-0', 'group-hover:h-8', 'from-gray-400', 'to-gray-500');
+                indicator.classList.add('h-8', 'from-red-600', 'to-red-500');
+            }
+        } else {
+            link.classList.remove('text-red-600', 'bg-red-50', 'font-semibold');
+            link.classList.add('text-gray-600', 'hover:text-gray-900', 'font-medium');
+            const indicator = link.querySelector('.w-1');
+            if (indicator) {
+                indicator.classList.remove('h-8', 'from-red-600', 'to-red-500');
+                indicator.classList.add('h-0', 'group-hover:h-8', 'from-gray-400', 'to-gray-500');
+            }
+        }
+    });
+}
+
 // Close mobile menu when a link is clicked; smooth scroll for in-page links
 document.addEventListener('DOMContentLoaded', function () {
   const menu = document.getElementById('mobile-menu');
   if (!menu) return;
+
+  // Add IDs to navigation links for easier targeting
+  const eventsLink = document.querySelector('a[href*="#mosaic"]');
+  const sponsorsLink = document.querySelector('a[href*="#sponsors"]');
+  const categoriesLink = document.querySelector('a[href*="#categories"]');
+  const highlightsLink = document.querySelector('a[href*="#highlights"]');
+
+  if (eventsLink) eventsLink.id = 'events-link';
+  if (sponsorsLink) sponsorsLink.id = 'sponsors-link';
+  if (categoriesLink) categoriesLink.id = 'categories-link';
+  if (highlightsLink) highlightsLink.id = 'highlights-link';
 
   const mobileLinks = Array.from(menu.querySelectorAll('a'));
   mobileLinks.forEach(link => {
@@ -295,5 +423,44 @@ document.addEventListener('DOMContentLoaded', function () {
       toggleMobileMenu();
     }
   });
+
+  // Initialize scroll tracking
+  updateActiveNavLink();
+
+  // Optimized scroll event listener for mobile performance
+  let scrollTicking = false;
+  let lastScrollTime = 0;
+  let lastScrollY = 0;
+  const scrollThrottle = window.innerWidth < 768 ? 50 : 20; // 20fps for mobile, 50fps for desktop
+
+  function onScroll() {
+    const now = Date.now();
+    const currentScrollY = window.scrollY;
+
+    // Skip if scroll position hasn't changed much
+    if (Math.abs(currentScrollY - lastScrollY) < 10) return;
+
+    if (!scrollTicking && (now - lastScrollTime) >= scrollThrottle) {
+      requestAnimationFrame(() => {
+        updateActiveNavLink();
+        scrollTicking = false;
+        lastScrollTime = now;
+        lastScrollY = currentScrollY;
+      });
+      scrollTicking = true;
+    }
+  }
+
+  // Add scroll end detection for final update
+  let scrollEndTimeout;
+  function onScrollEnd() {
+    clearTimeout(scrollEndTimeout);
+    scrollEndTimeout = setTimeout(() => {
+      updateActiveNavLink(); // Final update when scrolling stops
+    }, 100);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', onScrollEnd, { passive: true });
 });
 </script>

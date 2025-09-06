@@ -67,49 +67,11 @@
             </div>
           @endif
         </div>
-
-        <!-- Back link (mobile) -->
-        <div class="lg:hidden mt-8">
-          <a href="{{ route('home') }}#festival-category" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Back to Festival Categories
-          </a>
-        </div>
       </article>
 
       <!-- Sidebar -->
       <aside class="lg:col-span-4">
         <div class="sticky top-28 space-y-6">
-          <!-- Advertisement Section -->
-          @if(isset($advertisementsData) && !empty($advertisementsData['sidebar']))
-            <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
-              <h3 class="text-sm font-semibold text-slate-900 mb-4">Advertisement</h3>
-              <div class="space-y-4">
-                @foreach($advertisementsData['sidebar'] as $advertisement)
-                  <div class="advertisement-item">
-                    @if($advertisement['link_url'])
-                      <a href="{{ $advertisement['link_url'] }}" target="_blank" rel="noopener" class="block hover:opacity-90 transition-opacity">
-                        <img
-                          src="{{ $advertisement['image'] }}"
-                          alt="{{ $advertisement['title'] }}"
-                          class="w-full h-auto rounded-lg shadow-sm"
-                          style="max-height: 200px; object-fit: contain; object-position: center;"
-                        >
-                      </a>
-                    @else
-                      <img
-                        src="{{ $advertisement['image'] }}"
-                        alt="{{ $advertisement['title'] }}"
-                        class="w-full h-auto rounded-lg shadow-sm"
-                        style="max-height: 200px; object-fit: contain; object-position: center;"
-                      >
-                    @endif
-                  </div>
-                @endforeach
-              </div>
-            </div>
-          @endif
-
           <!-- Meta Card -->
           <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
             <h3 class="text-sm font-semibold text-slate-900 mb-4">Article Info</h3>
@@ -127,6 +89,42 @@
               </div>
             </dl>
           </div>
+
+          <!-- Advertisement Section -->
+          @if(isset($advertisementsData) && !empty($advertisementsData['sidebar']))
+            <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-8">
+              <h3 class="text-sm font-semibold text-slate-900 mb-6">Advertisement</h3>
+              <div class="space-y-6">
+                @foreach($advertisementsData['sidebar'] as $advertisement)
+                  <div class="advertisement-item bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    @if($advertisement['link_url'])
+                      <a href="{{ $advertisement['link_url'] }}" target="_blank" rel="noopener" class="block hover:opacity-90 transition-opacity">
+                        <img
+                          src="{{ $advertisement['image'] }}"
+                          alt="{{ $advertisement['title'] }}"
+                          class="w-full h-auto rounded-lg shadow-md border border-gray-300"
+                          style="max-height: 400px; min-height: 300px; object-fit: contain; object-position: center; width: 100%;"
+                        >
+                      </a>
+                    @else
+                      <img
+                        src="{{ $advertisement['image'] }}"
+                        alt="{{ $advertisement['title'] }}"
+                        class="w-full h-auto rounded-lg shadow-md border border-gray-300"
+                        style="max-height: 400px; min-height: 300px; object-fit: contain; object-position: center; width: 100%;"
+                      >
+                    @endif
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          @else
+            <!-- Show if no sidebar ads -->
+            <div class="rounded-2xl bg-gray-50 ring-1 ring-gray-200 p-6">
+              <h3 class="text-sm font-semibold text-gray-900 mb-4">Advertisement</h3>
+              <p class="text-sm text-gray-600">No sidebar advertisements available at the moment.</p>
+            </div>
+          @endif
 
           <!-- Share Card -->
           <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
