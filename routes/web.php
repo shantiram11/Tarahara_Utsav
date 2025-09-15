@@ -12,6 +12,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\EventHighlightController;
 use App\Http\Controllers\Admin\AdvertisementController;
+use App\Models\FestivalCategory;
 
 $productionFrontPage = app()->environment("production") ? '/utsav' : '/';
 
@@ -119,5 +120,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/festival-categories/{festivalCategory}/toggle-status', [FestivalCategoryController::class, 'toggleStatus'])->name('festival-categories.toggle-status');
 });
 
-// Frontend Festival Category Routes
-Route::get('/festival-categories/{festivalCategory:slug}', [FrontendController::class, 'showFestivalCategory'])->name('festival-categories.show');
+// Frontend TU Honours Routes (renamed path)
+Route::get('/tu-honors/{festivalCategory:slug}', [FrontendController::class, 'showFestivalCategory'])->name('festival-categories.show');
+
+// 301 redirect from old path to new TU Honours path
+Route::get('/festival-categories/{festivalCategory:slug}', function (FestivalCategory $festivalCategory) {
+    return redirect()->route(
+        'festival-categories.show',
+        ['festivalCategory' => $festivalCategory->slug],
+        301
+    );
+});

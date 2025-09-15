@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('page_title', 'View Festival Category')
+@section('page_title', 'View TU Honours')
 
 @section('content')
 <div class="row justify-content-center">
   <div class="col-lg-10">
     <div class="card">
       <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="mb-0">View Festival Category</h5>
+        <h5 class="mb-0">View TU Honours</h5>
         <div class="d-flex gap-2">
           <a href="{{ route('admin.festival-categories.edit', $festivalCategory) }}" class="btn btn-sm btn-warning">
             <i class="ri-edit-line me-1"></i>Edit

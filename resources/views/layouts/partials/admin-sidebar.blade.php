@@ -62,11 +62,11 @@
       </a>
     </li>
 
-    <!-- Festival Categories -->
+    <!-- TU Honours -->
     <li class="nav-item">
       <a class="nav-link {{ request()->routeIs('admin.festival-categories.*') ? 'active' : '' }}" href="{{ route('admin.festival-categories.index') }}">
         <i class="nav-icon ri-calendar-event-line"></i>
-        <span>Festival Categories</span>
+        <span>TU Honours</span>
       </a>
     </li>
 

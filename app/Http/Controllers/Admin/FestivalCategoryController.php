@@ -65,12 +65,12 @@ class FestivalCategoryController extends Controller
             $category = FestivalCategory::create($data);
 
             return $this->successResponse(
-                'Festival category created successfully!',
+                'TU Honours created successfully!',
                 route('admin.festival-categories.index')
             );
         } catch (\Exception $e) {
-            \Log::error('Error creating festival category: ' . $e->getMessage());
-            return $this->errorResponse('Error creating festival category: ' . $e->getMessage());
+            \Log::error('Error creating TU Honours: ' . $e->getMessage());
+            return $this->errorResponse('Error creating TU Honours: ' . $e->getMessage());
         }
     }
 
@@ -105,12 +105,12 @@ class FestivalCategoryController extends Controller
             $festivalCategory->update($data);
 
             return $this->successResponse(
-                'Festival category updated successfully!',
+                'TU Honours updated successfully!',
                 route('admin.festival-categories.index')
             );
         } catch (\Exception $e) {
-            \Log::error('Error updating festival category: ' . $e->getMessage());
-            return $this->errorResponse('Error updating festival category: ' . $e->getMessage());
+            \Log::error('Error updating TU Honours: ' . $e->getMessage());
+            return $this->errorResponse('Error updating TU Honours: ' . $e->getMessage());
         }
     }
 
@@ -123,10 +123,10 @@ class FestivalCategoryController extends Controller
             $this->deleteCategoryFiles($festivalCategory);
             $festivalCategory->delete();
 
-            return $this->successResponse('Festival category deleted successfully!');
+            return $this->successResponse('TU Honours deleted successfully!');
         } catch (\Exception $e) {
-            \Log::error('Error deleting festival category: ' . $e->getMessage());
-            return $this->errorResponse('Error deleting festival category: ' . $e->getMessage());
+            \Log::error('Error deleting TU Honours: ' . $e->getMessage());
+            return $this->errorResponse('Error deleting TU Honours: ' . $e->getMessage());
         }
     }
 

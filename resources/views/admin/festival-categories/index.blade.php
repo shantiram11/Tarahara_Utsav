@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('page_title', 'Festival Categories')
+@section('page_title', 'TU Honours')
 @section('content')
 @if(session('status'))
   <div class="alert alert-success">{{ session('status') }}</div>
 @endif
 <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
-    <h5 class="mb-0">Festival Categories</h5>
+    <h5 class="mb-0">TU Honours</h5>
     <a href="{{ route('admin.festival-categories.create') }}" class="btn btn-sm btn-success">Create Category</a>
   </div>
 
@@ -118,7 +118,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this festival category? This action cannot be undone.
+                Are you sure you want to delete this TU Honours? This action cannot be undone.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

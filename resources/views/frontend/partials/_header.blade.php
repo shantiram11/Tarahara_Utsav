@@ -35,7 +35,7 @@
                   </a>
 
                   <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="categories-link">
-                      <span>Category</span>
+                      <span>TU Honours</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
