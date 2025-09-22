@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('frontend.sections.hero', ['heroData' => $heroData])
+    @include('frontend.sections.advertisements', ['advertisementsData' => $advertisementsData, 'only' => ['below_hero']])
     @include('frontend.sections.about-us', ['aboutData' => $aboutData])
     @include('frontend.sections.floating-card')
 

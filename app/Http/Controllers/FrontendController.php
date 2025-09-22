@@ -327,7 +327,7 @@ class FrontendController extends Controller
      * @param array $positions Array of positions to include (default: all positions)
      * @return array
      */
-    public function getAdvertisementsData($positions = ['top', 'bottom', 'sidebar'])
+    public function getAdvertisementsData($positions = ['top', 'bottom', 'sidebar', 'below_hero'])
     {
         try {
             $advertisements = Advertisement::currentlyActive()->ordered()->get();
@@ -336,13 +336,14 @@ class FrontendController extends Controller
                 'top' => [],
                 'bottom' => [],
                 'sidebar' => [],
+                'below_hero' => [],
             ];
 
             if ($advertisements->isNotEmpty()) {
                 $grouped = $advertisements->groupBy('position');
 
                 foreach ($positions as $position) {
-                    if (in_array($position, ['top', 'bottom', 'sidebar'])) {
+                    if (in_array($position, ['top', 'bottom', 'sidebar', 'below_hero'])) {
                         $data[$position] = $grouped->get($position, collect())->map(function ($ad) {
                             return [
                                 'id' => $ad->id,
@@ -363,6 +364,7 @@ class FrontendController extends Controller
                 'top' => [],
                 'bottom' => [],
                 'sidebar' => [],
+                'below_hero' => [],
             ];
         }
     }
@@ -377,7 +379,7 @@ class FrontendController extends Controller
         $sponsorData = $this->getSponsorData();
         $mediaData = $this->getMediaData();
         $eventHighlightsData = $this->getEventHighlightsData();
-        $advertisementsData = $this->getAdvertisementsData(['top', 'bottom']); // Only top and bottom ads for home page
+        $advertisementsData = $this->getAdvertisementsData(['top', 'below_hero', 'bottom']); // Include below_hero on home page
         $festivalCategoriesData = $this->getFestivalCategoriesData();
 
         // we can add caching here for better performance

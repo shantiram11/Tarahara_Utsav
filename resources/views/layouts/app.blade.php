@@ -7,13 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#FDFDFC] text-[#1b1b18] antialiased">
-    @includeIf('frontend.sections.advertisements', ['advertisementsData' => $advertisementsData ?? []])
+    @includeIf('frontend.sections.advertisements', ['advertisementsData' => $advertisementsData ?? [], 'only' => ['top', 'bottom']])
     @includeIf('frontend.partials._header')
-
     @yield('content')
-
     @includeIf('frontend.partials._footer')
-
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

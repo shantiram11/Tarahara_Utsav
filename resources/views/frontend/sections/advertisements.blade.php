@@ -1,4 +1,11 @@
-@if(isset($advertisementsData) && !empty($advertisementsData['top']))
+@php
+    $onlyPositions = $only ?? null;
+    $shouldRender = function ($position) use ($onlyPositions) {
+        return is_null($onlyPositions) || in_array($position, $onlyPositions);
+    };
+@endphp
+
+@if($shouldRender('top') && isset($advertisementsData) && !empty($advertisementsData['top']))
     <style>
         /* Optimize advertisement animations for smooth performance */
         #advertisements-top-mobile,
@@ -181,7 +188,37 @@
     </script>
 @endif
 
-@if(isset($advertisementsData) && !empty($advertisementsData['bottom']))
+@if($shouldRender('below_hero') && isset($advertisementsData) && !empty($advertisementsData['below_hero']))
+    <section id="advertisements-below-hero" class="w-full">
+        <div class="w-full">
+            <div class="py-4">
+                @foreach($advertisementsData['below_hero'] as $advertisement)
+                    <div class="advertisement-item mb-4 last:mb-0">
+                        @if($advertisement['link_url'])
+                            <a href="{{ $advertisement['link_url'] }}" target="_blank" rel="noopener" class="block hover:opacity-90 transition-opacity">
+                                <img
+                                    src="{{ $advertisement['image'] }}"
+                                    alt="{{ $advertisement['title'] }}"
+                                    class="w-full h-auto block"
+                                    style="object-fit: contain; object-position: center; width: 100%;"
+                                >
+                            </a>
+                        @else
+                            <img
+                                src="{{ $advertisement['image'] }}"
+                                alt="{{ $advertisement['title'] }}"
+                                class="w-full h-auto block"
+                                style="object-fit: contain; object-position: center; width: 100%;"
+                            >
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+@endif
+
+@if($shouldRender('bottom') && isset($advertisementsData) && !empty($advertisementsData['bottom']))
     <section id="advertisements-bottom" class="bg-gray-50 border-t">
         <div class="mx-auto max-w-full px-2 sm:px-4 lg:px-6">
             <div class="py-4">
