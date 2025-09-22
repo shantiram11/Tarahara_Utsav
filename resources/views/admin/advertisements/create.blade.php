@@ -43,6 +43,7 @@
                         <select class="form-select" id="position" name="position" required>
                             <option value="">Select Position</option>
                             <option value="top" {{ old('position') == 'top' ? 'selected' : '' }}>Top (Above Navigation)</option>
+                            <option value="below_hero" {{ old('position') == 'below_hero' ? 'selected' : '' }}>Below Hero (Homepage)</option>
                             <option value="bottom" {{ old('position') == 'bottom' ? 'selected' : '' }}>Bottom (Footer Area)</option>
                             <option value="sidebar" {{ old('position') == 'sidebar' ? 'selected' : '' }}>Sidebar</option>
                         </select>
