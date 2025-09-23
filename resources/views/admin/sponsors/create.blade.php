@@ -55,6 +55,20 @@
                         <div id="website_urlError" class="invalid-feedback"></div>
                     </div>
 
+                    <!-- Amount & Label -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="amount" class="form-label">Amount (e.g., RS. 2,00,000/-)</label>
+                            <input type="text" class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount" value="{{ old('amount') }}" placeholder="RS. 2,00,000/-">
+                            <div id="amountError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="label" class="form-label">Label (e.g., TITLE SPONSOR)</label>
+                            <input type="text" class="form-control @error('label') is-invalid @enderror" id="label" name="label" value="{{ old('label') }}" placeholder="TITLE SPONSOR">
+                            <div id="labelError" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+
                     <!-- Image Upload -->
                     <div class="mb-3">
                         <label for="image" class="form-label">Sponsor Logo/Image <span class="text-danger">*</span></label>

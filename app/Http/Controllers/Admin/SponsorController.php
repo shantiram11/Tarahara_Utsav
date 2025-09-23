@@ -16,12 +16,16 @@ class SponsorController extends Controller
             'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'tier' => 'required|in:tier1,tier2',
             'website_url' => 'nullable|url|max:255',
+            'amount' => 'nullable|string|max:255',
+            'label' => 'nullable|string|max:255',
         ],
         'update' => [
             'title' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'tier' => 'required|in:tier1,tier2',
             'website_url' => 'nullable|url|max:255',
+            'amount' => 'nullable|string|max:255',
+            'label' => 'nullable|string|max:255',
         ]
     ];
 
@@ -214,7 +218,7 @@ class SponsorController extends Controller
      */
     private function prepareData(Request $request, ?Sponsor $sponsor = null): array
     {
-        $data = $request->only(['title', 'tier', 'website_url', 'is_active']);
+        $data = $request->only(['title', 'tier', 'website_url', 'is_active', 'amount', 'label']);
 
         // Handle image upload
         if ($request->hasFile('image')) {

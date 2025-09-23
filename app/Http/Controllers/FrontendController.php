@@ -140,6 +140,8 @@ class FrontendController extends Controller
                             'title' => $sponsor->title,
                             'image' => Storage::url($sponsor->image),
                             'website_url' => $sponsor->website_url,
+                            'amount' => $sponsor->amount,
+                            'label' => $sponsor->label,
                             'added_date' => $sponsor->created_at->format('M d, Y')
                         ];
                     })
@@ -152,6 +154,8 @@ class FrontendController extends Controller
                             'title' => $sponsor->title,
                             'image' => Storage::url($sponsor->image),
                             'website_url' => $sponsor->website_url,
+                            'amount' => $sponsor->amount,
+                            'label' => $sponsor->label,
                             'added_date' => $sponsor->created_at->format('M d, Y')
                         ];
                     })
