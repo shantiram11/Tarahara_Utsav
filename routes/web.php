@@ -28,6 +28,10 @@ Route::get($productionFrontPage, [FrontendController::class, 'home'])->name('hom
 // Contact page
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
+// TU Info pages
+Route::get('/tu-info', [FrontendController::class, 'tuInfoIndex'])->name('tuinfo.index');
+Route::get('/tu-info/{slug}', [FrontendController::class, 'tuInfoShow'])->name('tuinfo.show');
+
 // Password reset via OTP
 Route::post('/password/otp/send', [PasswordOtpController::class, 'sendOtp'])->name('password.otp.send');
 Route::get('/password/otp', [PasswordOtpController::class, 'showForm'])->name('password.otp.form');

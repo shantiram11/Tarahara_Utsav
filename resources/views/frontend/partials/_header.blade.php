@@ -24,7 +24,7 @@
                   </a>
 
                   <!-- Regular Nav Links -->
-                  <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="events-link">
+                <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="events-link">
                       <span>Events</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
@@ -34,7 +34,7 @@
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
 
-                  <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="categories-link">
+                <a href="{{ request()->routeIs('home') ? '#categories' : route('home').'#categories' }}" class="nav-link relative px-3 py-2 text-gray-700 hover:text-gray-900 text-sm rounded-md transition-colors" id="categories-link">
                       <span>TU Honours</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
@@ -43,6 +43,11 @@
                       <span>Highlights</span>
                       <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="display:none"></span>
                   </a>
+
+                <a href="{{ route('tuinfo.index') }}" class="nav-link relative px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('tuinfo.*') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-700 hover:text-gray-900' }}">
+                    <span>TU Info</span>
+                    <span class="active-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded bg-red-600" style="{{ request()->routeIs('tuinfo.*') ? 'display:block' : 'display:none' }}"></span>
+                </a>
 
                   <a href="{{ route('contact') }}" class="nav-link relative px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('contact') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-700 hover:text-gray-900' }}">
                       <span>Contact</span>
@@ -154,6 +159,11 @@
               <a href="{{ route('contact') }}" class="group flex items-center justify-between py-4 px-4 {{ request()->routeIs('contact') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-600 hover:text-gray-900 font-medium' }} rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
                   <span>Contact</span>
                   <div class="w-1 {{ request()->routeIs('contact') ? 'h-8' : 'h-0 group-hover:h-8' }} bg-gradient-to-b {{ request()->routeIs('contact') ? 'from-red-600 to-red-500' : 'from-gray-400 to-gray-500' }} rounded-full transition-all duration-300"></div>
+              </a>
+
+              <a href="{{ route('tuinfo.index') }}" class="group flex items-center justify-between py-4 px-4 {{ request()->routeIs('tuinfo.*') ? 'text-red-600 bg-red-50 font-semibold' : 'text-gray-600 hover:text-gray-900 font-medium' }} rounded-xl transition-all duration-300 hover:bg-red-100 hover:pl-6 border-b border-gray-100">
+                  <span>TU Info</span>
+                  <div class="w-1 {{ request()->routeIs('tuinfo.*') ? 'h-8' : 'h-0 group-hover:h-8' }} bg-gradient-to-b {{ request()->routeIs('tuinfo.*') ? 'from-red-600 to-red-500' : 'from-gray-400 to-gray-500' }} rounded-full transition-all duration-300"></div>
               </a>
 
               <!-- Mobile Auth Buttons -->
@@ -380,11 +390,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const sponsorsLink = document.querySelector('a[href*="#sponsors"]');
   const categoriesLink = document.querySelector('a[href*="#categories"]');
   const highlightsLink = document.querySelector('a[href*="#highlights"]');
+  const tuinfoLink = document.querySelector('a[href="{{ route('tuinfo.index') }}"]');
 
   if (eventsLink) eventsLink.id = 'events-link';
   if (sponsorsLink) sponsorsLink.id = 'sponsors-link';
   if (categoriesLink) categoriesLink.id = 'categories-link';
   if (highlightsLink) highlightsLink.id = 'highlights-link';
+  if (tuinfoLink) tuinfoLink.id = 'tuinfo-link';
 
   const mobileLinks = Array.from(menu.querySelectorAll('a'));
   mobileLinks.forEach(link => {
@@ -462,5 +474,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('scroll', onScrollEnd, { passive: true });
+
+  // If we're on TU Info or other non-home pages, set active state appropriately
+  const isTuInfo = window.location.pathname.startsWith('/tu-info');
+  if (!isTuInfo && window.location.pathname !== '{{ parse_url(route('home'), PHP_URL_PATH) }}') {
+    // Do nothing; home detection will handle when on home. For other pages, highlight by server-side classes.
+  }
 });
 </script>

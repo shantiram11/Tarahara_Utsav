@@ -462,4 +462,60 @@ class FrontendController extends Controller
     {
         return view('frontend.contact');
     }
+
+    /**
+     * Show TU Info listing page
+     */
+    public function tuInfoIndex()
+    {
+        // Sample/public picks entries; replace with DB later
+        $items = [
+            ['title' => 'Bimal Chaudhary', 'slug' => 'bimal-chaudhary', 'image' => asset('assets/home1.png')],
+            ['title' => 'Community Star', 'slug' => 'community-star', 'image' => asset('assets/home.png')],
+            ['title' => 'Rising Talent', 'slug' => 'rising-talent', 'image' => asset('assets/dashboard.png')],
+            ['title' => 'Inspiring Woman', 'slug' => 'inspiring-woman', 'image' => asset('assets/culture.png')],
+            ['title' => 'Local Hero', 'slug' => 'local-hero', 'image' => asset('assets/Live performance.png')],
+            ['title' => 'Young Achiever', 'slug' => 'young-achiever', 'image' => asset('assets/food stalls.png')],
+            ['title' => 'Social Worker', 'slug' => 'social-worker', 'image' => asset('assets/art exhibation.jpg')],
+            ['title' => 'Creative Mind', 'slug' => 'creative-mind', 'image' => asset('assets/Logo.png')],
+            ['title' => 'Cultural Icon', 'slug' => 'cultural-icon', 'image' => asset('assets/2025_logo_hero.png')],
+        ];
+
+        $advertisementsData = $this->getAdvertisementsData(['top', 'bottom']);
+
+        return view('frontend.tuinfo.index', compact('items', 'advertisementsData'));
+    }
+
+    /**
+     * Show TU Info detail page
+     */
+    public function tuInfoShow(string $slug)
+    {
+        // Minimal content map; in future, fetch from DB
+        $map = [
+            'bimal-chaudhary' => [
+                'title' => 'Bimal Chaudhary',
+                'subtitle' => 'Community Hero',
+                'image' => asset('assets/home1.png'),
+            ],
+        ];
+
+        $tuInfo = $map[$slug] ?? [
+            'title' => ucwords(str_replace('-', ' ', $slug)),
+            'subtitle' => 'Public Picks',
+            'image' => asset('assets/home.png'),
+        ];
+
+        $honorees = collect(range(1, 8))->map(function ($i) {
+            return [
+                'name' => 'Bimal Chaudhary',
+                'tag' => 'Public Picks',
+                'image' => asset('assets/home1.png'),
+            ];
+        })->toArray();
+
+        $advertisementsData = $this->getAdvertisementsData(['bottom', 'sidebar']);
+
+        return view('frontend.tuinfo.show', compact('tuInfo', 'honorees', 'advertisementsData'));
+    }
 }
