@@ -33,13 +33,13 @@
             <a href="{{ route('home') }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Home</a>
           </li>
           <li>
-            <a href="{{ request()->routeIs('home') ? '#mosaic' : route('home').'#mosaic' }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Events</a>
+            <a href="{{ route('tuinfo.index') }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">TU Info</a>
+          </li>
+          <li>
+            <a href="#" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">TU Guide</a>
           </li>
           <li>
             <a href="{{ request()->routeIs('home') ? '#sponsors' : route('home').'#sponsors' }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Sponsors</a>
-          </li>
-          <li>
-            <a href="{{ request()->routeIs('home') ? '#highlights' : route('home').'#highlights' }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Highlights</a>
           </li>
           <li>
             <a href="{{ route('contact') }}" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Contact</a>
@@ -47,21 +47,21 @@
         </ul>
       </div>
 
-      <!-- Event Date -->
+      <!-- Event Patro -->
       <div>
-        <h4 class="text-sm font-semibold text-white">Event Date</h4>
+        <h4 class="text-sm font-semibold text-white">EVENT PATRO</h4>
         <dl class="mt-4 space-y-2 text-sm">
           <div class="flex items-start gap-2">
-            <dt class="w-16 text-white/70">Dates:</dt>
-            <dd class="text-white/85">December 15–17, 2025</dd>
+            <dt class="w-16 text-white/70">Date:</dt>
+            <dd class="text-white/85">12th Poush, Saturday 2082</dd>
           </div>
           <div class="flex items-start gap-2">
             <dt class="w-16 text-white/70">Time:</dt>
-            <dd class="text-white/85">10:00 AM — 10:00 PM Daily</dd>
+            <dd class="text-white/85">9:00 AM — 9:00 PM</dd>
           </div>
           <div class="flex items-start gap-2">
             <dt class="w-16 text-white/70">Venue:</dt>
-            <dd class="text-white/85">Tarahara Bazaar, Basketball Court</dd>
+            <dd class="text-white/85">Itahari-20, Tarahara.</dd>
           </div>
         </dl>
       </div>
@@ -70,9 +70,9 @@
       <div>
         <h4 class="text-sm font-semibold text-white">Contact Us</h4>
         <ul class="mt-4 space-y-2 text-sm">
-          <li>Tarahara Bazaar Itahari-2<br />Sunsari Nepal</li>
-          <li>+977 9800000977</li>
-          <li><a href="mailto:info@taraharautsav.com" class="relative inline-block text-white/80 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">info@taraharautsav.com</a></li>
+          <li>Mrs. Sergeant Gurung Building<br />(Corporate &amp; Business Inquiries)</li>
+          <li>MAINA Home<br />(Official Correspondence)<br />Itahari-20, Tarahara.</li>
+          <li>Kathmandu Contact Office<br />MDMR Home, Kapan</li>
         </ul>
       </div>
 
@@ -81,8 +81,11 @@
     <!-- Bottom Bar -->
     <div class="mt-8 border-t border-white/10 pt-6 text-xs text-white/65">
       <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <a href="#" class="relative inline-block text-white/75 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Terms & Privacy</a>
-        <p>© 2025 Tarahara Utsav. All rights reserved.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="relative inline-block text-white/75 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Terms & Conditions</a>
+          <a href="#" class="relative inline-block text-white/75 transition-colors hover:text-white after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:scale-x-0 after:origin-left after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100">Privacy Policies</a>
+        </div>
+        <p>© 2025 Tarahara Utsav, Aama Digital Management and Marketing Pvt. Ltd., Nepal. All rights reserved.</p>
         <div class="flex items-center gap-4">
           <a aria-label="Facebook" href="#" class="opacity-80 hover:opacity-100 transition" title="Facebook">
             <img src="{{ asset('assets/social-facebook.svg') }}" alt="Facebook" class="h-4 w-4" />
