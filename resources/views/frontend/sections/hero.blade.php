@@ -6,8 +6,10 @@
     $fallbackImages = $heroData['fallbackImages'] ?? [];
 
     // Helper function to safely get image or fallback
-    function getSafeImage($images, $fallbackImages, $index, $fallbackIndex) {
-        return isset($images[$index]) ? $images[$index] : $fallbackImages[$fallbackIndex];
+    if (!function_exists('getSafeImage')) {
+        function getSafeImage($images, $fallbackImages, $index, $fallbackIndex) {
+            return isset($images[$index]) ? $images[$index] : $fallbackImages[$fallbackIndex];
+        }
     }
 @endphp
 
